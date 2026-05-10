@@ -7,12 +7,12 @@ import { TripSkeleton } from "@/components/trips/TripSkeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { Button } from "@/components/ui/button";
 import { 
-  ArrowRight,
   MoveRight,
   Sparkles,
   Map,
   Compass,
-  ArrowUpRight
+  ArrowUpRight,
+  Globe
 } from "lucide-react";
 import * as motion from "framer-motion/client";
 
@@ -20,15 +20,15 @@ async function DashboardStats({ userId }: { userId: string }) {
   const stats = await getTripStats(userId);
 
   return (
-    <div className="flex flex-wrap gap-12 border-l border-foreground/10 pl-8">
+    <div className="flex flex-wrap gap-x-20 gap-y-10">
       {[
-        { label: "Active Journeys", value: stats.ongoing },
-        { label: "Planned Routes", value: stats.upcoming },
-        { label: "Completed Expeditions", value: stats.completed },
+        { label: "Active", value: stats.ongoing },
+        { label: "Planned", value: stats.upcoming },
+        { label: "Archived", value: stats.completed },
       ].map((item) => (
         <div key={item.label} className="space-y-1">
-          <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">{item.label}</p>
-          <h3 className="text-4xl font-display">{item.value.toString().padStart(2, '0')}</h3>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">{item.label}</p>
+          <h3 className="text-6xl font-display text-primary">{item.value.toString().padStart(2, '0')}</h3>
         </div>
       ))}
     </div>
@@ -42,70 +42,71 @@ async function TripExhibition({ userId }: { userId: string }) {
   if (trips.length === 0) {
     return (
       <EmptyState
-        title="Begin Your Narrative"
-        description="Craft your first bespoke travel itinerary."
-        ctaLabel="Initialize Loop"
+        title="The Unwritten Map"
+        description="Your travel legacy begins with a single intentional design."
+        ctaLabel="Initialize Sequence"
         ctaHref="/trips/new"
-        icon={Sparkles}
+        icon={Globe}
       />
     );
   }
 
   return (
-    <div className="space-y-24">
-      {/* Featured Trip Section (Asymmetrical) */}
+    <div className="space-y-40">
+      {/* High-End Featured Section */}
       {featuredTrip && (
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 relative group">
-             <div className="absolute inset-0 bg-[#FF6B35]/5 -m-4 rounded-3xl group-hover:bg-[#FF6B35]/10 transition-colors" />
-             <div className="relative aspect-[16/9] bg-muted overflow-hidden rounded-2xl">
-                <img 
-                  src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&h=800&fit=crop" 
-                  alt="Featured" 
-                  className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-1000 scale-105 hover:scale-100" 
-                />
-             </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 border border-foreground/5 bg-card overflow-hidden luxury-shadow">
+          <div className="lg:col-span-8 relative aspect-[16/10] lg:aspect-auto h-full overflow-hidden">
+             <img 
+               src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1200&h=800&fit=crop" 
+               alt="Featured" 
+               className="object-cover w-full h-full grayscale" 
+             />
+             <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
           </div>
-          <div className="lg:col-span-5 space-y-8">
-             <div className="space-y-4">
-                <Badge variant="outline" className="rounded-full border-foreground/20 px-4 py-1 uppercase tracking-widest text-[10px] font-black">Featured Operation</Badge>
-                <h2 className="text-6xl font-display leading-[0.9]">{featuredTrip.title}</h2>
-                <p className="text-muted-foreground text-lg leading-relaxed max-w-sm italic">
-                  "{featuredTrip.description || "The journey of a thousand miles begins with a single design."}"
+          <div className="lg:col-span-4 p-16 flex flex-col justify-between space-y-20 bg-background border-l border-foreground/5">
+             <div className="space-y-8">
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Priority Loop</span>
+                <h2 className="text-7xl font-display leading-[0.8] tracking-tighter">{featuredTrip.title}</h2>
+                <p className="text-xl text-muted-foreground font-medium leading-relaxed italic border-l border-primary/30 pl-8">
+                  "{featuredTrip.description || "Refined movement across the global grid."}"
                 </p>
              </div>
-             <Button asChild size="lg" className="rounded-full px-12 group h-16 bg-foreground text-background hover:bg-[#FF6B35] hover:text-white transition-all duration-500">
-                <Link href={`/trips/${featuredTrip.id}`}>
-                  Enter Itinerary <ArrowUpRight className="ml-3 group-hover:rotate-45 transition-transform" />
+             <Button asChild size="lg" className="rounded-none px-0 group h-auto bg-transparent text-foreground hover:bg-transparent hover:text-primary transition-all border-none justify-start w-fit">
+                <Link href={`/trips/${featuredTrip.id}`} className="flex items-center gap-4 text-xs font-black uppercase tracking-[0.4em]">
+                  Execute Protocol <MoveRight size={20} className="group-hover:translate-x-4 transition-transform" />
                 </Link>
              </Button>
           </div>
         </div>
       )}
 
-      {/* Grid of Other Trips (Minimalist) */}
-      <div className="space-y-12">
-         <div className="flex items-end justify-between border-b border-foreground/10 pb-8">
-            <h3 className="text-3xl font-display tracking-tighter">Archived Archives.</h3>
-            <Link href="/trips" className="text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:text-[#FF6B35] transition-colors">
-               Explore all <MoveRight size={16} />
+      {/* Structured Grid */}
+      <div className="space-y-20">
+         <div className="flex items-center justify-between border-b border-foreground/10 pb-10">
+            <h3 className="text-5xl font-display">Archived Records.</h3>
+            <Link href="/trips" className="text-[10px] font-black uppercase tracking-[0.4em] text-primary hover:tracking-[0.6em] transition-all">
+               View All Datasets
             </Link>
          </div>
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1px bg-foreground/5">
             {trips.slice(1, 4).map((trip) => (
-              <div key={trip.id} className="space-y-6 group cursor-pointer">
-                 <div className="aspect-[4/5] bg-muted rounded-xl overflow-hidden relative">
+              <div key={trip.id} className="bg-background p-12 space-y-10 group cursor-pointer hover:bg-muted/30 transition-colors">
+                 <div className="aspect-[4/5] bg-muted overflow-hidden relative grayscale group-hover:grayscale-0 transition-all duration-700">
                     <img 
                        src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=400&h=500&fit=crop" 
                        alt={trip.title} 
-                       className="object-cover w-full h-full grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-110" 
+                       className="object-cover w-full h-full scale-100 group-hover:scale-105 transition-transform" 
                     />
                  </div>
-                 <div className="space-y-2">
-                    <h4 className="text-2xl font-display group-hover:text-[#FF6B35] transition-colors">{trip.title}</h4>
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
-                       {new Date(trip.startDate).getFullYear()} Expedition
-                    </p>
+                 <div className="space-y-4">
+                    <h4 className="text-3xl font-display leading-none group-hover:text-primary transition-colors">{trip.title}</h4>
+                    <div className="flex justify-between items-center pt-4 border-t border-foreground/5">
+                       <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                          {new Date(trip.startDate).getFullYear()}
+                       </span>
+                       <ArrowUpRight size={16} className="opacity-20 group-hover:opacity-100 group-hover:text-primary transition-all" />
+                    </div>
                  </div>
               </div>
             ))}
@@ -120,51 +121,52 @@ export default async function DashboardPage() {
   if (!session?.user) return null;
 
   return (
-    <div className="animate-in fade-in duration-1000 min-h-screen">
-      {/* Editorial Header */}
-      <section className="section-padding grid grid-cols-1 lg:grid-cols-2 gap-20 items-end border-b border-foreground/5">
-        <div className="space-y-10">
-          <div className="space-y-4">
-            <h1 className="text-8xl md:text-9xl font-display leading-[0.85] tracking-tighter">
+    <div className="page-transition min-h-screen">
+      {/* Architectural Header */}
+      <header className="section-padding grid grid-cols-1 lg:grid-cols-12 gap-20 items-end border-b border-foreground/5 bg-background">
+        <div className="lg:col-span-7 space-y-12">
+          <div className="space-y-2">
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-primary">Command Status: Active</span>
+            <h1 className="text-8xl md:text-9xl font-display leading-[0.8] tracking-tighter">
               Bespoke <br />
-              <span className="text-[#FF6B35] italic">Travel.</span>
+              Itineraries.
             </h1>
           </div>
-          <div className="max-w-md space-y-6">
-            <p className="text-xl text-muted-foreground leading-relaxed font-medium">
-              Curating the world&apos;s most meaningful journeys for agent <span className="text-foreground font-black underline underline-offset-8 decoration-[#FF6B35]/30">{session.user.firstName}</span>.
+          <div className="max-w-md space-y-10">
+            <p className="text-2xl text-muted-foreground leading-snug font-medium">
+              Curating the world&apos;s most meaningful movements for explorer <span className="text-foreground font-black italic">{session.user.firstName}</span>.
             </p>
-            <div className="flex gap-4">
-               <Button asChild size="lg" className="rounded-full bg-[#FF6B35] hover:bg-black text-white px-10 h-14 font-black text-sm uppercase tracking-widest shadow-2xl shadow-orange-500/20">
-                  <Link href="/trips/new">New Journey</Link>
-               </Button>
-            </div>
+            <Button asChild size="lg" className="rounded-none bg-foreground text-background hover:bg-primary hover:text-white px-12 h-16 font-black uppercase tracking-[0.3em] text-xs transition-all shadow-none">
+              <Link href="/trips/new">Initialize New Journey</Link>
+            </Button>
           </div>
         </div>
         
-        <Suspense fallback={<div className="h-20 w-full bg-muted animate-pulse rounded-xl" />}>
-           <DashboardStats userId={session.user.id} />
-        </Suspense>
-      </section>
+        <div className="lg:col-span-5 w-full">
+           <Suspense fallback={<div className="h-20 w-full bg-muted animate-pulse" />}>
+              <DashboardStats userId={session.user.id} />
+           </Suspense>
+        </div>
+      </header>
 
-      {/* Main Exhibition */}
-      <section className="section-padding">
-         <Suspense fallback={<div className="h-96 w-full bg-muted animate-pulse rounded-3xl" />}>
+      {/* Exhibition Space */}
+      <main className="section-padding bg-background">
+         <Suspense fallback={<div className="h-screen w-full bg-muted animate-pulse" />}>
             <TripExhibition userId={session.user.id} />
          </Suspense>
-      </section>
+      </main>
 
-      {/* Luxury Footer Detail */}
-      <section className="px-12 md:px-24 py-12 flex justify-between items-center opacity-20 hover:opacity-100 transition-opacity border-t border-foreground/5">
-         <span className="text-[10px] font-black uppercase tracking-[0.5em]">Global Travel Loop Systems</span>
-         <div className="flex gap-8">
-            <Map size={16} />
-            <Compass size={16} />
+      {/* Signature Detail: Minimalist Footer */}
+      <footer className="px-12 md:px-24 py-16 flex flex-col md:flex-row justify-between items-center gap-8 border-t border-foreground/5 opacity-40">
+         <div className="flex items-center gap-4">
+            <div className="w-8 h-px bg-foreground/20" />
+            <span className="text-[10px] font-black uppercase tracking-[0.6em]">Traveloop Systems Terminal</span>
          </div>
-         <span className="text-[10px] font-black uppercase tracking-[0.5em]">Ver. 26.04.10</span>
-      </section>
+         <div className="flex gap-16">
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Protocol V.26</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Global Node 04-10</span>
+         </div>
+      </footer>
     </div>
   );
 }
-
-import { Badge } from "@/components/ui/badge";

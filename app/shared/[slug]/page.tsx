@@ -9,8 +9,9 @@ import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
-export default async function SharedTripPage({ params }: { params: { slug: string } }) {
-  const shared = await getSharedTrip(params.slug);
+export default async function SharedTripPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const shared = await getSharedTrip(slug);
 
   if (!shared) notFound();
 
@@ -23,7 +24,7 @@ export default async function SharedTripPage({ params }: { params: { slug: strin
       <SharedTripHeader 
         trip={trip} 
         creator={creator} 
-        slug={params.slug}
+        slug={slug}
       />
 
       <div className="max-w-6xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-10 -mt-12 relative z-10">

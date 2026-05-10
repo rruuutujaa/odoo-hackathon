@@ -20,17 +20,18 @@ import {
 import Link from "next/link";
 import { format } from "date-fns";
 
-export default async function InvoicePage({ params }: { params: { id: string } }) {
-  const trip = await getTripById(params.id);
+export default async function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const trip = await getTripById(id);
   if (!trip) notFound();
 
-  const summary = await getExpenseSummary(params.id);
+  const summary = await getExpenseSummary(id);
 
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-20 animate-in fade-in duration-500">
       {/* Header */}
       <div className="flex flex-col gap-4">
-        <Link href={`/trips/${params.id}`} className="flex items-center gap-2 text-muted-foreground hover:text-[#FF6B35] transition-colors font-bold text-sm">
+        <Link href={`/trips/${id}`} className="flex items-center gap-2 text-muted-foreground hover:text-[#FF6B35] transition-colors font-bold text-sm">
           <ArrowLeft size={16} /> Back to Trip Details
         </Link>
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">

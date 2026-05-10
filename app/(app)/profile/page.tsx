@@ -8,16 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Loader2, Camera, MapPin, Mail, Phone, Globe, Edit2, Save, X } from "lucide-react";
+import { Loader2, Camera, MapPin, Mail, Globe, ArrowRight, Settings, Shield, User } from "lucide-react";
 
 export default function ProfilePage() {
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
   const [profile, setProfile] = useState<any>(null);
   const [trips, setTrips] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState<any>({});
   
   useEffect(() => {
     if (session?.user) {
@@ -28,22 +26,9 @@ export default function ProfilePage() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // In a real app, we'd have a getProfile action. 
-      // For now, use session data or fetch from a new action if needed.
-      // Since we already have trips action, let's use that.
       const t = await getTrips(session!.user.id);
       setTrips(t);
       setProfile(session?.user);
-      setFormData({
-        firstName: session?.user?.firstName,
-        lastName: session?.user?.lastName,
-        email: session?.user?.email,
-        // Mocking other fields since they are in DB but maybe not in session yet
-        phone: "",
-        city: "",
-        country: "",
-        bio: ""
-      });
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,23 +36,10 @@ export default function ProfilePage() {
     }
   };
 
-  const handleSave = async () => {
-    setSaving(true);
-    try {
-      // Logic to update profile via server action would go here
-      // await updateProfile(session.user.id, formData);
-      setEditing(false);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setSaving(false);
-    }
-  };
-
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="flex h-screen items-center justify-center bg-background">
+        <Loader2 className="h-10 w-10 animate-spin text-[#FF6B35]" />
       </div>
     );
   }
@@ -76,82 +48,99 @@ export default function ProfilePage() {
   const previousCount = trips.filter(t => t.status === 'COMPLETED').length;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 pb-12">
-      <Card className="overflow-hidden border-none shadow-lg rounded-[24px]">
-        <div className="h-32 bg-gradient-to-r from-[#1A1F3C] to-primary" />
-        <CardContent className="relative pt-0 px-8">
-          <div className="flex flex-col md:flex-row items-end gap-6 -mt-12 mb-6">
-            <div className="relative group">
-              <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
-                <AvatarImage src="" />
-                <AvatarFallback className="text-3xl bg-muted">{profile?.firstName?.[0]}</AvatarFallback>
-              </Avatar>
-              <label className="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform">
-                <Camera className="h-4 w-4" />
-                <input type="file" className="hidden" accept="image/*" />
-              </label>
-            </div>
-            <div className="flex-1 pb-2">
-              <h1 className="text-3xl font-bold text-[#1A1F3C]">{profile?.firstName} {profile?.lastName}</h1>
-              <p className="text-muted-foreground flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                Traveler
-              </p>
-            </div>
-            <div className="pb-2">
-              {editing ? (
-                <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => setEditing(false)} className="rounded-[10px]">
-                    <X className="mr-2 h-4 w-4" /> Cancel
-                  </Button>
-                  <Button size="sm" onClick={handleSave} disabled={saving} className="bg-[#FF6B35] hover:bg-[#E85A24] rounded-[10px]">
-                    {saving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
-                    Save Changes
-                  </Button>
+    <div className="animate-in fade-in duration-1000 min-h-screen">
+      {/* Editorial Profile Header */}
+      <section className="section-padding bg-foreground text-background relative overflow-hidden border-b border-white/5">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#FF6B35]/10 rounded-full blur-[150px] -mr-64 -mt-64" />
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-20 items-end">
+          <div className="lg:col-span-8 space-y-12">
+             <div className="space-y-4">
+                <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#FF6B35]">Identity Profile</p>
+                <h1 className="text-8xl md:text-9xl font-display leading-tight tracking-tighter">
+                   Agent <br />
+                   <span className="text-[#FF6B35] italic capitalize">{profile?.firstName || 'Explorer'}</span>.
+                </h1>
+             </div>
+             <div className="flex flex-wrap gap-12 border-l border-background/10 pl-8">
+                <div>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-background/40">Status</p>
+                   <p className="text-2xl font-display text-white">Authenticated</p>
                 </div>
-              ) : (
-                <Button onClick={() => setEditing(true)} className="bg-primary hover:bg-primary/90 rounded-[10px]">
-                  <Edit2 className="mr-2 h-4 w-4" /> Edit Profile
-                </Button>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-6 border-t">
-            <div className="space-y-4">
-              <h3 className="font-bold text-[#1A1F3C]">Contact Info</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-sm">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <span>{profile?.email}</span>
+                <div>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-background/40">Role</p>
+                   <p className="text-2xl font-display text-white capitalize">{profile?.role || 'USER'}</p>
                 </div>
-              </div>
-            </div>
-
-            <div className="md:col-span-2 space-y-4">
-              <h3 className="font-bold text-[#1A1F3C]">About Me</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Traveler since {new Date().getFullYear()}
-              </p>
-            </div>
+                <div>
+                   <p className="text-[10px] font-black uppercase tracking-widest text-background/40">Affiliation</p>
+                   <p className="text-2xl font-display text-white">Traveloop Global</p>
+                </div>
+             </div>
           </div>
-        </CardContent>
-      </Card>
+          <div className="lg:col-span-4 flex justify-end">
+             <div className="relative group">
+                <div className="absolute inset-0 bg-[#FF6B35] rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity" />
+                <div className="w-64 h-64 rounded-full border-4 border-[#FF6B35]/30 overflow-hidden bg-white/5 relative flex items-center justify-center p-2 backdrop-blur-2xl">
+                   <div className="w-full h-full rounded-full bg-white flex items-center justify-center font-display text-8xl text-black">
+                      {profile?.firstName?.[0]}
+                   </div>
+                   <button className="absolute bottom-4 right-4 bg-[#FF6B35] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform">
+                      <Camera size={24} />
+                   </button>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <Card className="rounded-[20px] border-none shadow-md bg-[#1A1F3C] text-white">
-          <CardContent className="pt-6">
-            <div className="text-4xl font-black mb-1">{preplannedCount}</div>
-            <div className="text-sm opacity-80 uppercase tracking-wider font-bold">Preplanned Trips</div>
-          </CardContent>
-        </Card>
-        <Card className="rounded-[20px] border-none shadow-md bg-[#FF6B35] text-white">
-          <CardContent className="pt-6">
-            <div className="text-4xl font-black mb-1">{previousCount}</div>
-            <div className="text-sm opacity-80 uppercase tracking-wider font-bold">Previous Trips</div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* Profile Analytics / Stats */}
+      <section className="section-padding grid grid-cols-1 lg:grid-cols-12 gap-20">
+         <div className="lg:col-span-4 space-y-12">
+            <h2 className="text-4xl font-display tracking-tight border-b border-foreground/5 pb-6 italic">Personnel Data.</h2>
+            <div className="space-y-8">
+               <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Email Identity</Label>
+                  <p className="text-2xl font-medium border-b border-foreground/5 pb-2">{profile?.email}</p>
+               </div>
+               <div className="space-y-2">
+                  <Label className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground">Coordinates</Label>
+                  <p className="text-2xl font-medium border-b border-foreground/5 pb-2">Global / Distributed</p>
+               </div>
+               <Button size="lg" className="rounded-full px-10 bg-foreground text-background hover:bg-[#FF6B35] hover:text-white font-black uppercase tracking-widest text-[10px] h-14">
+                  <Settings className="mr-2 h-4 w-4" /> System Preferences
+               </Button>
+            </div>
+         </div>
+
+         <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+            <Card className="rounded-[40px] border border-foreground/5 bg-foreground text-background p-12 overflow-hidden relative group">
+               <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-125 transition-transform duration-1000">
+                  <Shield size={120} strokeWidth={1} />
+               </div>
+               <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-background/40 mb-2">Planned Missions</h3>
+               <p className="text-9xl font-display leading-none">{preplannedCount.toString().padStart(2, '0')}</p>
+               <p className="text-sm font-bold uppercase tracking-widest mt-8 text-background/60 italic leading-relaxed">
+                  Active loops awaiting execution in the global grid.
+               </p>
+            </Card>
+
+            <Card className="rounded-[40px] border border-[#FF6B35]/20 bg-white p-12 overflow-hidden relative group shadow-2xl">
+               <div className="absolute top-0 right-0 p-8 text-[#FF6B35] opacity-5 group-hover:scale-125 transition-transform duration-1000">
+                  <MapPin size={120} strokeWidth={1} />
+               </div>
+               <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-muted-foreground mb-2">Secured Archives</h3>
+               <p className="text-9xl font-display leading-none text-[#FF6B35]">{previousCount.toString().padStart(2, '0')}</p>
+               <p className="text-sm font-bold uppercase tracking-widest mt-8 text-muted-foreground italic leading-relaxed">
+                  Successful expeditions logged and data-secured.
+               </p>
+            </Card>
+         </div>
+      </section>
+
+      {/* Unique Detail: Luxury Signature */}
+      <section className="section-padding flex flex-col items-center justify-center opacity-10 py-40">
+         <div className="w-px h-40 bg-foreground mb-12" />
+         <p className="text-4xl font-display tracking-widest italic select-none">Traveloop Personnel Command</p>
+      </section>
     </div>
   );
 }

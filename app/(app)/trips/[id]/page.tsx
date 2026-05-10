@@ -18,8 +18,9 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 
-export default async function TripDetailsPage({ params }: { params: { id: string } }) {
-  const trip = await getTripById(params.id);
+export default async function TripDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const trip = await getTripById(id);
 
   if (!trip) notFound();
 

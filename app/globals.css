@@ -1,84 +1,116 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  
+  --radius-luxury: 0.5rem; /* Shaper, more intentional corners */
+  --radius-editorial: 0rem;
+  --radius-widget: 0.75rem;
+
+  --color-brand-orange: #FF5C00; /* More vibrant, high-fashion orange */
+  --color-brand-obsidian: #0A0A0A;
+}
 
 @layer base {
   :root {
-    --background: 40 20% 98%; /* Soft Cream */
-    --foreground: 0 0% 5%;    /* Deep Obsidian */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 5%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 5%;
-    --primary: 16 100% 61%;   /* Traveloop Orange */
+    --background: 0 0% 100%; 
+    --foreground: 0 0% 4%;    
+    --primary: 22 100% 50%;   
     --primary-foreground: 0 0% 100%;
-    --secondary: 40 10% 90%;
-    --secondary-foreground: 0 0% 5%;
-    --muted: 40 5% 94%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 16 100% 61%;
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 4%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --accent: 22 100% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 16 100% 61%;
-    --radius: 0rem; /* Editorial Sharp Corners */
+    --ring: 22 100% 50%;
   }
 
   .dark {
-    --background: 0 0% 3%;     /* Darker Obsidian */
-    --foreground: 40 20% 98%;  /* Soft Cream */
+    --background: 0 0% 4%;     
+    --foreground: 0 0% 98%;  
     --card: 0 0% 6%;
-    --card-foreground: 40 20% 98%;
-    --muted: 0 0% 10%;
-    --muted-foreground: 0 0% 60%;
-    --border: 0 0% 12%;
-    --input: 0 0% 12%;
+    --card-foreground: 0 0% 98%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 55%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
   }
 }
 
 @layer utilities {
-  .font-display {
-    font-family: var(--font-display);
+  .luxury-border {
+    @apply border border-foreground/10;
   }
-  .luxury-shadow {
-    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.3);
+  
+  .luxury-grid {
+    background-size: 40px 40px;
+    background-image: linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
   }
-  .glass-light {
-    @apply bg-white/70 backdrop-blur-md border border-white/20;
+
+  .dark .luxury-grid {
+    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
   }
-  .glass-dark {
-    @apply bg-black/40 backdrop-blur-xl border border-white/5;
+
+  .text-premium {
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
-  .text-balance {
-    text-wrap: balance;
+  
+  .text-title {
+    letter-spacing: -0.05em;
+    line-height: 1;
   }
 }
 
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  transition: background-color 0.5s ease;
+  font-family: var(--font-body), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
 }
 
-/* Luxury Custom Cursor */
-.custom-cursor {
-  width: 20px;
-  height: 20px;
-  border: 1px solid #FF6B35;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.1s ease;
+/* Removal of AI-style gradients and blurs */
+body::before {
+  display: none;
 }
 
-/* Editorial Spacing */
-.section-padding {
-  @apply py-24 px-12 md:px-24;
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
 }
 
-h1, h2, h3 {
-  @apply font-display tracking-tight;
+/* Custom Scrollbar - Ultra Thin */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Signature Motion: Elegant, non-bounce */
+.page-transition {
+  animation: elegantFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes elegantFade {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }

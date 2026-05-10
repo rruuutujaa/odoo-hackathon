@@ -1,11 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Search as SearchIcon, Filter, MapPin, Star, ArrowRight, Loader2, Plane } from "lucide-react";
+import { Search as SearchIcon, MapPin, Star, ArrowRight, Loader2, Plane, Compass, MoveRight } from "lucide-react";
 import { searchActivities } from "@/lib/actions/activities";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -33,105 +32,114 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="max-w-2xl mx-auto text-center space-y-4">
-        <h1 className="text-4xl font-bold text-[#1A1F3C]">Discover Activities</h1>
-        <p className="text-muted-foreground">Find the best things to do in any city around the world</p>
-        
-        <form onSubmit={handleSearch} className="relative mt-8">
-          <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-          <Input 
-            placeholder="Search activities, landmarks, cities..." 
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-14 bg-white shadow-lg border-none rounded-[16px] text-lg focus-visible:ring-1 pr-32"
-          />
-          <Button 
-            type="submit" 
-            disabled={loading}
-            className="absolute right-2 top-2 h-10 bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-[12px] px-6"
-          >
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
-          </Button>
-        </form>
-      </div>
+    <div className="animate-in fade-in duration-1000 min-h-screen">
+      {/* Immersive Search Hero */}
+      <section className="section-padding bg-foreground text-background relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#FF6B35]/20 rounded-full blur-[100px] -mr-20 -mt-20" />
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-20 items-center">
+          <div className="lg:col-span-6 space-y-10">
+            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-[#FF6B35]">Global Database</p>
+            <h1 className="text-7xl md:text-8xl font-display leading-tight tracking-tighter">
+              Explore <br />
+              <span className="text-[#FF6B35] italic">Intelligence.</span>
+            </h1>
+            <p className="text-xl text-background/60 leading-relaxed max-w-sm font-medium">
+              Access curated data points for over 10,000+ global landmarks and activities.
+            </p>
+          </div>
+          
+          <div className="lg:col-span-6">
+            <form onSubmit={handleSearch} className="relative group">
+              <div className="absolute inset-0 bg-[#FF6B35] rounded-full blur-2xl opacity-10 group-focus-within:opacity-20 transition-opacity" />
+              <Input 
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Target city or landmark..."
+                className="relative bg-white/5 border-none h-24 rounded-full pl-12 pr-40 text-3xl font-display text-white placeholder:text-white/10 focus-visible:ring-2 focus-visible:ring-[#FF6B35] transition-all"
+              />
+              <Button 
+                type="submit" 
+                disabled={loading}
+                className="absolute right-3 top-3 h-18 rounded-full bg-[#FF6B35] hover:bg-orange-500 text-white px-10 font-black uppercase tracking-widest text-xs"
+              >
+                {loading ? <Loader2 className="animate-spin" /> : "Query Database"}
+              </Button>
+            </form>
+            <div className="flex gap-4 mt-6 px-8">
+               {['History', 'Adventure', 'Food', 'Culture'].map(tag => (
+                 <button key={tag} onClick={() => { setQuery(tag); handleSearch(); }} className="text-[10px] font-black uppercase tracking-widest text-white/30 hover:text-[#FF6B35] transition-colors">{tag}</button>
+               ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div className="max-w-5xl mx-auto">
+      {/* Results Exhibition */}
+      <section className="section-padding max-w-7xl mx-auto">
         {loading ? (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {[1, 2, 3, 4].map((i) => (
-              <Card key={i} className="rounded-[16px] overflow-hidden">
-                <div className="flex flex-col md:flex-row gap-4 p-4">
-                  <Skeleton className="w-full md:w-48 aspect-video rounded-lg" />
-                  <div className="flex-1 space-y-3 py-2">
-                    <Skeleton className="h-6 w-1/3" />
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-2/3" />
-                  </div>
-                </div>
-              </Card>
+              <div key={i} className="space-y-6">
+                <Skeleton className="aspect-[16/10] w-full rounded-2xl" />
+                <Skeleton className="h-8 w-2/3" />
+                <Skeleton className="h-4 w-full" />
+              </div>
             ))}
           </div>
         ) : searched && results.length === 0 ? (
           <EmptyState 
-            title="No results found"
-            description={`We couldn't find any activities matching "${query}". Try searching for a different city or activity.`}
-            icon={MapPin}
+            title="Coordinate Not Found"
+            description={`System scan for "${query}" returned zero matches. Verify spelling or expand search area.`}
+            icon={Compass}
           />
         ) : results.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
             {results.map((activity) => (
-              <Card key={activity.id} className="group rounded-[16px] overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-0">
-                  <div className="flex flex-col md:flex-row">
-                    <div className="w-full md:w-48 h-48 md:h-auto relative bg-muted flex items-center justify-center">
-                      <Plane className="text-muted-foreground/20" size={48} />
-                      <Badge className="absolute top-2 left-2 bg-white/90 text-primary hover:bg-white border-none">
-                        {activity.category}
-                      </Badge>
-                    </div>
-                    <div className="flex-1 p-6 flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-start justify-between">
-                          <h3 className="text-xl font-bold text-[#1A1F3C] group-hover:text-primary transition-colors">{activity.name}</h3>
-                          <div className="flex items-center text-yellow-500 font-bold">
-                            <Star className="h-4 w-4 fill-current mr-1" />
-                            4.8
-                          </div>
-                        </div>
-                        <p className="text-muted-foreground text-sm mt-2 line-clamp-2">
-                          {activity.description}
-                        </p>
-                        <div className="flex items-center gap-4 mt-4 text-xs font-medium text-muted-foreground">
-                          <span className="flex items-center gap-1">
-                            <MapPin className="h-3 w-3" /> {activity.location}
-                          </span>
-                          <span>Duration: {activity.duration}h</span>
-                        </div>
-                      </div>
-                      <div className="mt-6 flex items-center justify-between">
-                        <div className="text-lg font-black text-[#1A1F3C]">
-                          ${activity.cost} <span className="text-xs font-normal text-muted-foreground">/ person</span>
-                        </div>
-                        <Button variant="ghost" className="text-primary hover:text-primary hover:bg-primary/5 rounded-[10px]">
-                          View Details <ArrowRight className="ml-2 h-4 w-4" />
-                        </Button>
-                      </div>
+              <div key={activity.id} className="group cursor-pointer">
+                <div className="relative aspect-[16/10] rounded-2xl overflow-hidden mb-8 bg-muted shadow-2xl">
+                  <img 
+                    src={`https://images.unsplash.com/photo-1500000000000?q=80&w=800&fit=crop&sig=${activity.id}`} 
+                    alt={activity.name}
+                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 scale-105 group-hover:scale-100"
+                  />
+                  <div className="absolute top-6 left-6">
+                    <Badge className="bg-white text-black border-none rounded-full px-4 py-1 font-black text-[8px] uppercase tracking-widest">{activity.category}</Badge>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between">
+                    <h3 className="text-4xl font-display group-hover:text-[#FF6B35] transition-colors">{activity.name}</h3>
+                    <div className="flex items-center text-xs font-black tracking-tighter">
+                      <Star className="h-3 w-3 fill-[#FF6B35] text-[#FF6B35] mr-1" /> 4.9
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <p className="text-muted-foreground font-medium leading-relaxed italic border-l border-foreground/10 pl-6">
+                    {activity.description}
+                  </p>
+                  <div className="flex items-center justify-between pt-6 border-t border-foreground/5">
+                    <div className="flex items-center gap-4">
+                      <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+                        <MapPin size={12} className="text-[#FF6B35]" /> {activity.location}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-6">
+                       <span className="text-xl font-display">${activity.cost}</span>
+                       <div className="w-10 h-10 rounded-full bg-foreground text-background flex items-center justify-center group-hover:bg-[#FF6B35] group-hover:text-white transition-all">
+                          <ArrowRight size={18} />
+                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : (
-          <div className="text-center py-20">
-            <div className="inline-flex items-center justify-center p-6 rounded-full bg-primary/5 mb-6">
-              <MapPin className="h-12 w-12 text-primary opacity-20" />
-            </div>
-            <p className="text-muted-foreground font-medium">Search for cities like &quot;Paris&quot; or &quot;Tokyo&quot; to discover top things to do.</p>
+          <div className="flex flex-col items-center justify-center py-40 space-y-8 opacity-20 hover:opacity-100 transition-opacity duration-1000">
+             <div className="text-[12rem] font-display text-foreground pointer-events-none select-none">SCAN.</div>
+             <p className="text-xs font-black uppercase tracking-[1em] ml-8">Awaiting Input Protocol</p>
           </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }
