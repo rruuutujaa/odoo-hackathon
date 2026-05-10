@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dashboard - Traveloop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1f",
+                        "primary": "#ab3500",
+                        "surface-container-high": "#e7e8ec",
+                        "surface": "#f8f9fd",
+                        "on-secondary-fixed": "#141936",
+                        "secondary-fixed-dim": "#c0c4ea",
+                        "primary-fixed-dim": "#ffb59d",
+                        "surface-container": "#edeef2",
+                        "outline-variant": "#e1bfb5",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2e3134",
+                        "surface-variant": "#e1e2e6",
+                        "on-tertiary-container": "#53240a",
+                        "on-tertiary-fixed-variant": "#6d391d",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#ff6b35",
+                        "on-surface-variant": "#594139",
+                        "inverse-primary": "#ffb59d",
+                        "surface-bright": "#f8f9fd",
+                        "surface-container-low": "#f2f3f7",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "tertiary": "#895032",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-highest": "#e1e2e6",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdbd0",
+                        "on-primary-container": "#5f1900",
+                        "tertiary-container": "#ce8968",
+                        "surface-dim": "#d9dade",
+                        "on-primary-fixed-variant": "#832600",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d4d8fe",
+                        "on-tertiary-fixed": "#351000",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#390c00",
+                        "on-surface": "#191c1f",
+                        "surface-tint": "#ab3500",
+                        "on-secondary-container": "#585d7e",
+                        "secondary-fixed": "#dee0ff",
+                        "background": "#f8f9fd",
+                        "outline": "#8d7168",
+                        "on-secondary-fixed-variant": "#404564",
+                        "secondary": "#585c7d",
+                        "inverse-on-surface": "#eff1f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "section-gap": "48px",
+                        "container-max": "1440px",
+                        "card-padding": "24px",
+                        "sidebar-width": "280px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "button": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "button": ["14px", { "lineHeight": "1.0", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 bg-on-secondary-fixed shadow-2xl py-6 gap-2 z-40">
+<!-- Brand Header -->
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-on-primary-container fill-icon">flight_takeoff</span>
+</div>
+<div>
+<h1 class="font-display-lg text-headline-md font-bold text-primary-fixed-dim">Traveloop</h1>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/70 mt-1">Premium Planner</p>
+</div>
+</div>
+<!-- Main Navigation Tabs -->
+<div class="flex flex-col flex-1 gap-1 px-2">
+<!-- Active Tab -->
+<a class="flex items-center gap-3 bg-primary/10 text-primary-fixed-dim border-l-4 border-primary px-4 py-3 rounded-r-xl transition-all scale-[0.98]" href="#">
+<span class="material-symbols-outlined fill-icon" data-icon="dashboard">dashboard</span>
+<span class="font-button text-button">Dashboard</span>
+</a>
+<!-- Inactive Tabs -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-button text-button">Itinerary</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-button text-button">Budget</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-button text-button">Packing List</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-button text-button">Trips</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-button text-button">Settings</span>
+</a>
+</div>
+<!-- CTA Button -->
+<div class="px-6 mt-6 mb-6">
+<button class="w-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-button text-button py-3 rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-0.5 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Trip
+            </button>
+</div>
+<!-- Footer Tabs -->
+<div class="flex flex-col gap-1 px-2 border-t border-white/10 pt-4 mt-auto">
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-button text-button">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-button text-button">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Mobile Top Bar (Visible only on mobile) -->
+<header class="md:hidden fixed top-0 w-full bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 z-50 px-4 h-16 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-md bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container text-[18px] fill-icon">flight_takeoff</span>
+</div>
+<span class="font-display-lg text-[20px] font-bold text-primary">Traveloop</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant transition-colors text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-[280px] w-full max-w-container-max mx-auto px-4 md:px-section-gap py-20 md:py-10 flex flex-col gap-8">
+<!-- Welcome Header -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest mb-2">September 24, 2024</p>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">Good morning, Alex!</h2>
+<p class="text-on-surface-variant mt-2 max-w-2xl">Your trip to the Amalfi Coast is coming up in 14 days. Let's make sure everything is ready.</p>
+</div>
+<div class="flex gap-3">
+<button class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors shadow-sm border border-outline-variant/20 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-3 right-3 w-2.5 h-2.5 bg-primary rounded-full border-2 border-surface-container"></span>
+</button>
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-surface-container shadow-sm cursor-pointer">
+<img alt="User Avatar" class="w-full h-full object-cover" data-alt="A high-quality professional headshot of a smiling young woman with natural makeup, looking directly at the camera. The background is a soft, blurred studio grey. The lighting is bright, even, and flattering, fitting a clean, modern UI aesthetic. The overall mood is approachable and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0Gjt1quJHnHbwSJN9Ea1gaORcunBtNibxb8hOO1dyQNGjqUxzijDkFzblzVT-1BVyTMEFOZLv8B0Tqns8WwH8AqleA24bVVuze-PY2a9t_wtc0jpYdDdiV9f662C3czYHKkScmMtBVQINV4Dj_-wNJyXFwPFqr4Vuq7COPX3EA-irTKpxn29OFdY3HEK8A-4d_EeBqphz1IfiCyowTiKpr5upqQGAuVjMk4CXKXUeHNoxEQ_YHkAKElj6sQ7sEuryN725VCo2Ilo"/>
+</div>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-min">
+<!-- Hero Card: Upcoming Trip (Spans 8 cols) -->
+<section class="md:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden flex flex-col group cursor-pointer relative">
+<div class="h-64 md:h-72 w-full relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/30 to-transparent z-10"></div>
+<img alt="Amalfi Coast" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" data-alt="A breathtaking, wide-angle shot of the Amalfi Coast in Italy at golden hour. Colorful, stacked houses cling to steep, rugged cliffs overlooking the deep blue Mediterranean Sea. The warm, glowing light of the setting sun highlights the terracotta roofs and lush green vegetation. The scene is incredibly scenic, inspiring, and fits perfectly within a premium travel interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLqS19hfTumY9MgMri-ONxrUj4l72JMi-OvMNvXVMGjfX4VYJ5w6uKNzwm5YJatOuL0561sLB_U4gBaaqlW7yH20Ho3MCA2ER3Y9CUQbuEdR-OsimAPk_SsWJm80DCtSGCP3zg7bIbbaEDC0RNAmOuNAqMMXcDkm98IFnAQVIYYxjY5w8e7jf-HCNVp_gbS12j_yV9JA4SKNTQnm7agjBWf9pf0Ez1BbIz-3v_iXiwQLQbo26-XdnOX60mRE1bX0amczR12iOVtG0"/>
+<div class="absolute top-4 left-4 z-20 flex gap-2">
+<span class="bg-primary/90 backdrop-blur-md text-on-primary font-label-sm text-label-sm px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+<span class="material-symbols-outlined text-[14px]">flight</span> Upcoming
+                        </span>
+<span class="bg-surface/80 backdrop-blur-md text-on-surface font-label-sm text-label-sm px-3 py-1.5 rounded-full shadow-sm">
+                            14 Days Left
+                        </span>
+</div>
+<button class="absolute top-4 right-4 z-20 w-10 h-10 bg-surface/80 backdrop-blur-md rounded-full flex items-center justify-center text-on-surface hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<div class="absolute bottom-6 left-6 z-20 text-on-primary">
+<h3 class="font-headline-md text-headline-md mb-1">Amalfi Coast Escape</h3>
+<p class="font-body-md text-body-md text-on-primary/80 flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                            Oct 8 - Oct 15, 2024
+                        </p>
+</div>
+</div>
+<div class="p-card-padding flex justify-between items-center bg-surface-container-lowest">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<img alt="Traveler 1" class="w-10 h-10 rounded-full border-2 border-surface-container-lowest shadow-sm z-30" data-alt="A small circular portrait of a young woman, matching the main avatar style. Soft lighting, neutral background, part of a UI face pile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9CxcZObe61vCTtUbz3glVeuHBeU27sm4LLhHJmT8qWllj7GT6TSYNIzzf3vcuoh2HEBZi6AKFYV4Ii4GluSN0u71NMFn6tDr8ChCy8Erks1lRTrig0UoOF690qPH2tH_yyBRtfmSuAKtcTMY7XOYrjml-E0nElC06twLbX89yKm4JCHwpg0_TIj8NNGwCJq3YkBvZXrpzDp3o0bAEw1oot-YXRcfl9ZlXhShKBDLcVXIwgKDqiYFaLqIv1NU2wTvvrJh5Rlkj5P4"/>
+<img alt="Traveler 2" class="w-10 h-10 rounded-full border-2 border-surface-container-lowest shadow-sm z-20" data-alt="A small circular portrait of a smiling man with short hair and a beard. Soft lighting, neutral background, part of a UI face pile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWm1CohTwtopvmgrC0Dfd2rITwCFxSRfN2eUvCc5UIwZhlnM9HvCnxl_iHUiFSEWnawNFQaXlo7Z4iJu3eZWO7TJioJPQYEp7eWBezovH4AsCR6VpuHWXSaPn1dVIpxJveR74VN69SP0D-eqO41_vLIjYlBh0b6pGtdabJRGl8DhtpYQK2nKzQ3qHOCngxTTooLKZQ1mdYe5-DwyNxwh5N2FTrlJmq_IWwIf6QZhQN2V9ay78I4z_aAwLfrPgOsWehyQJ4obrpfs4"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-lowest shadow-sm z-10 bg-surface-container flex items-center justify-center text-secondary font-label-sm text-label-sm">
+                                +2
+                            </div>
+</div>
+<p class="text-sm text-on-surface-variant"><span class="font-semibold text-on-surface">4 items</span> need attention</p>
+</div>
+<button class="text-primary hover:text-primary-container font-button text-button flex items-center gap-1 transition-colors">
+                        View Itinerary <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</section>
+<!-- Quick Stats/Weather (Spans 4 cols) -->
+<section class="md:col-span-4 flex flex-col gap-6">
+<!-- Weather Card -->
+<div class="bg-gradient-to-br from-[#4A90E2] to-[#50E3C2] p-card-padding rounded-xl shadow-sm relative overflow-hidden text-white flex-1 min-h-[160px] flex flex-col justify-between">
+<div class="absolute -right-6 -top-6 opacity-20">
+<span class="material-symbols-outlined text-[120px] fill-icon">sunny</span>
+</div>
+<div class="relative z-10 flex justify-between items-start">
+<div>
+<p class="font-label-sm text-label-sm uppercase tracking-wider mb-1 opacity-90">Amalfi, Italy</p>
+<h4 class="font-display-lg-mobile text-[36px] font-bold">24°C</h4>
+</div>
+<span class="material-symbols-outlined text-[32px] fill-icon">sunny</span>
+</div>
+<div class="relative z-10 flex justify-between items-end mt-4">
+<p class="font-body-md text-sm opacity-90">Sunny &amp; Clear</p>
+<p class="font-label-sm text-label-sm opacity-90">H:26° L:18°</p>
+</div>
+</div>
+<!-- Budget Mini Card -->
+<div class="bg-surface-container-lowest p-card-padding rounded-xl shadow-sm border border-outline-variant/30 flex-1 flex flex-col justify-between">
+<div class="flex justify-between items-center mb-4">
+<h4 class="font-headline-md text-[18px] text-on-surface">Budget Overview</h4>
+<span class="material-symbols-outlined text-secondary text-[20px]">more_horiz</span>
+</div>
+<div>
+<p class="font-display-lg-mobile text-[28px] text-on-background">$3,450 <span class="text-sm font-normal text-on-surface-variant">/ $5,000</span></p>
+<div class="w-full bg-surface-container-high h-2 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 69%"></div>
+</div>
+<p class="text-sm text-on-surface-variant mt-2">69% of budget used</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

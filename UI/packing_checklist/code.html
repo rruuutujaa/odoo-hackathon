@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Traveloop - Packing List</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1f",
+                    "primary": "#ab3500",
+                    "surface-container-high": "#e7e8ec",
+                    "surface": "#f8f9fd",
+                    "on-secondary-fixed": "#141936",
+                    "secondary-fixed-dim": "#c0c4ea",
+                    "primary-fixed-dim": "#ffb59d",
+                    "surface-container": "#edeef2",
+                    "outline-variant": "#e1bfb5",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2e3134",
+                    "surface-variant": "#e1e2e6",
+                    "on-tertiary-container": "#53240a",
+                    "on-tertiary-fixed-variant": "#6d391d",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ff6b35",
+                    "on-surface-variant": "#594139",
+                    "inverse-primary": "#ffb59d",
+                    "surface-bright": "#f8f9fd",
+                    "surface-container-low": "#f2f3f7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "tertiary": "#895032",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-highest": "#e1e2e6",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#ffdbd0",
+                    "on-primary-container": "#5f1900",
+                    "tertiary-container": "#ce8968",
+                    "surface-dim": "#d9dade",
+                    "on-primary-fixed-variant": "#832600",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d4d8fe",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#390c00",
+                    "on-surface": "#191c1f",
+                    "surface-tint": "#ab3500",
+                    "on-secondary-container": "#585d7e",
+                    "secondary-fixed": "#dee0ff",
+                    "background": "#f8f9fd",
+                    "outline": "#8d7168",
+                    "on-secondary-fixed-variant": "#404564",
+                    "secondary": "#585c7d",
+                    "inverse-on-surface": "#eff1f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "48px",
+                    "container-max": "1440px",
+                    "card-padding": "24px",
+                    "sidebar-width": "280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "button": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "JetBrains Mono"
+                    ],
+                    "display-lg-mobile": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Plus Jakarta Sans"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "button": [
+                            "14px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "1.0",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg-mobile": [
+                            "32px",
+                            {
+                                    "lineHeight": "1.2",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "1.6",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "1.3",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "1.5",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background antialiased flex w-full min-h-screen">
+<!-- SideNavBar Component based on Shared JSON -->
+<nav class="fixed left-0 top-0 h-screen w-sidebar-width bg-on-secondary-fixed shadow-2xl flex flex-col py-6 gap-2 z-50">
+<!-- Header -->
+<div class="px-4 mb-8 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-variant overflow-hidden border border-outline/30 flex-shrink-0">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A close-up portrait of a young professional woman with natural makeup and subtle lighting. The photography style is high-end editorial, bright, and modern, perfectly matching the premium, high-end travel aesthetic of the UI. She wears a minimalist neutral-colored top against a soft, bright background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-Hf_IajPQyfZc2aC4e53klntui6RulkMOlDozhe2Mr6gXKUVGkvIb4Yw87FkB-65tPchqD_irTu_d4bWa2fMvRU9bG3ObzBqYniJ1SqhYqtgMTm5cl0RpUab9cxm4WWlbHIHNQp0mVeO576ODKdfv_WSYi0IYGi3Xz7PgYTga6Zf-L5ND1X1sAbs3w3i_U1S0O2AGdJqmaVB6766ZEUlSj_9tLcYdCFISouLTGYurZHzkJikH2iWRic-oGcSeobPBJ0vYfBmkQ_o"/>
+</div>
+<div>
+<h1 class="font-display-lg text-headline-md text-primary-fixed-dim">Traveloop</h1>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/70 mt-1">Premium Planner</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-4 mb-6">
+<button class="w-full bg-primary text-on-primary font-button text-button py-3 rounded-lg hover:bg-primary/90 transition-colors shadow-sm flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Trip
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex flex-col gap-1">
+<!-- Inactive -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">map</span>
+<span class="font-label-sm text-label-sm">Itinerary</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-label-sm text-label-sm">Budget</span>
+</a>
+<!-- Active: Packing List -->
+<a class="flex items-center gap-3 bg-primary/10 text-primary-fixed-dim border-l-4 border-primary px-4 py-3 rounded-r-xl scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-sm text-label-sm">Packing List</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="font-label-sm text-label-sm">Trips</span>
+</a>
+<!-- Inactive -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="mt-auto flex flex-col gap-1 pt-4 border-t border-white/5">
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-sidebar-width flex-1 relative overflow-hidden">
+<!-- Ambient Background Blob for Glassmorphism depth -->
+<div class="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-primary-fixed/20 blur-[120px] -z-10 pointer-events-none"></div>
+<div class="max-w-container-max mx-auto px-section-gap py-12 flex flex-col min-h-screen">
+<!-- Context Header -->
+<header class="mb-12">
+<div class="flex items-end justify-between mb-4">
+<div>
+<p class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2">Upcoming Trip • 12 Days Left</p>
+<h2 class="font-display-lg text-display-lg text-on-background">Packing Checklist</h2>
+</div>
+<div class="text-right">
+<span class="font-display-lg text-headline-md text-on-background block">34<span class="text-secondary text-body-lg font-body-lg">/50</span></span>
+<p class="font-body-md text-body-md text-secondary mt-1">Items Packed</p>
+</div>
+</div>
+<!-- Smart Progress Tracker -->
+<div class="w-full bg-surface-variant rounded-full h-2 overflow-hidden relative shadow-inner">
+<div class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary to-primary-container rounded-full transition-all duration-700 ease-out w-[68%]"></div>
+</div>
+</header>
+<!-- Minimalist Category Tabs -->
+<div class="flex gap-4 mb-8 pb-4 border-b border-surface-variant overflow-x-auto no-scrollbar">
+<button class="bg-on-background text-on-primary font-button text-button px-6 py-2.5 rounded-full shadow-md hover:opacity-90 transition-opacity whitespace-nowrap">Essentials</button>
+<button class="text-secondary font-button text-button px-6 py-2.5 rounded-full hover:bg-surface-variant transition-colors whitespace-nowrap">Clothes</button>
+<button class="text-secondary font-button text-button px-6 py-2.5 rounded-full hover:bg-surface-variant transition-colors whitespace-nowrap">Tech</button>
+<button class="text-secondary font-button text-button px-6 py-2.5 rounded-full hover:bg-surface-variant transition-colors whitespace-nowrap">Toiletries</button>
+</div>
+<!-- Bento Grid Layout for Checklist and Context -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start flex-1">
+<!-- Main Checklist Area (8 cols) -->
+<div class="lg:col-span-8 bg-surface-container-lowest/80 backdrop-blur-xl rounded-xl shadow-[0_4px_24px_rgba(20,25,54,0.04)] border border-outline-variant/30 p-card-padding">
+<div class="flex justify-between items-center mb-6">
+<h3 class="font-display-lg text-headline-md text-on-background">Essentials</h3>
+<button class="text-primary font-button text-button flex items-center gap-1 hover:text-primary-container transition-colors px-3 py-1.5 rounded-md hover:bg-primary/5">
+<span class="material-symbols-outlined text-[18px]">add</span> Add Item
+                        </button>
+</div>
+<div class="flex flex-col">
+<!-- Checklist Item 1 (Checked) -->
+<label class="flex items-center gap-4 py-4 border-b border-surface-variant group cursor-pointer hover:bg-surface/50 -mx-card-padding px-card-padding transition-colors">
+<div class="relative w-6 h-6 rounded-full bg-primary border-2 border-primary flex items-center justify-center transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-on-primary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-1">
+<span class="font-body-lg text-body-lg text-secondary line-through block">Passport &amp; Visas</span>
+</div>
+<button class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity hover:text-on-background p-1">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</label>
+<!-- Checklist Item 2 (Checked) -->
+<label class="flex items-center gap-4 py-4 border-b border-surface-variant group cursor-pointer hover:bg-surface/50 -mx-card-padding px-card-padding transition-colors">
+<div class="relative w-6 h-6 rounded-full bg-primary border-2 border-primary flex items-center justify-center transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-on-primary" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<div class="flex-1">
+<span class="font-body-lg text-body-lg text-secondary line-through block">Flight Tickets (Digital &amp; Print)</span>
+<span class="font-label-sm text-label-sm text-outline mt-1 block">Added from Itinerary</span>
+</div>
+<button class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity hover:text-on-background p-1">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</label>
+<!-- Checklist Item 3 (Unchecked) -->
+<label class="flex items-center gap-4 py-4 border-b border-surface-variant group cursor-pointer hover:bg-surface/50 -mx-card-padding px-card-padding transition-colors">
+<div class="relative w-6 h-6 rounded-full border-2 border-outline flex items-center justify-center group-hover:border-primary transition-colors bg-surface-container-lowest">
+</div>
+<div class="flex-1">
+<span class="font-body-lg text-body-lg text-on-background block">Travel Insurance Documents</span>
+</div>
+<button class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity hover:text-on-background p-1">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</label>
+<!-- Checklist Item 4 (Unchecked) -->
+<label class="flex items-center gap-4 py-4 border-b border-surface-variant group cursor-pointer hover:bg-surface/50 -mx-card-padding px-card-padding transition-colors">
+<div class="relative w-6 h-6 rounded-full border-2 border-outline flex items-center justify-center group-hover:border-primary transition-colors bg-surface-container-lowest">
+</div>
+<div class="flex-1">
+<span class="font-body-lg text-body-lg text-on-background block">Local Currency (Cash)</span>
+<span class="font-label-sm text-label-sm text-primary mt-1 block">High Priority</span>
+</div>
+<button class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity hover:text-on-background p-1">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</label>
+<!-- Checklist Item 5 (Unchecked) -->
+<label class="flex items-center gap-4 py-4 group cursor-pointer hover:bg-surface/50 -mx-card-padding px-card-padding transition-colors rounded-b-xl">
+<div class="relative w-6 h-6 rounded-full border-2 border-outline flex items-center justify-center group-hover:border-primary transition-colors bg-surface-container-lowest">
+</div>
+<div class="flex-1">
+<span class="font-body-lg text-body-lg text-on-background block">Credit Cards (No Foreign Transaction Fee)</span>
+</div>
+<button class="text-secondary opacity-0 group-hover:opacity-100 transition-opacity hover:text-on-background p-1">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</label>
+</div>
+</div>
+<!-- Right Side: Empty State / Suggestions Card (4 cols) -->
+<div class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Beautiful Empty State (Demonstrating the UI pattern) -->
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl rounded-xl shadow-[0_4px_24px_rgba(20,25,54,0.04)] border border-outline-variant/30 p-8 flex flex-col items-center text-center">
+<div class="w-20 h-20 mb-6 rounded-full bg-surface-container flex items-center justify-center shadow-inner">
+<span class="material-symbols-outlined text-display-lg-mobile text-secondary" style="font-variation-settings: 'wght' 200;">checkroom</span>
+</div>
+<h4 class="font-display-lg text-headline-md text-on-background mb-2">Pack Like a Pro</h4>
+<p class="font-body-md text-body-md text-secondary mb-6 leading-relaxed">Let Traveloop suggest essential clothing items based on the weather forecast for Bali.</p>
+<button class="w-full bg-surface text-on-background font-button text-button px-6 py-3 border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+                            Generate Suggestions
+                        </button>
+</div>
+<!-- Weather Context Card -->
+<div class="bg-inverse-surface rounded-xl shadow-md p-6 relative overflow-hidden">
+<!-- Abstract texture/gradient for weather card -->
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-outline-variant uppercase mb-1">Bali Forecast</p>
+<span class="font-display-lg text-display-lg-mobile text-on-primary">82°F</span>
+<p class="font-body-md text-body-md text-inverse-on-surface mt-1">Sunny &amp; Humid</p>
+</div>
+<span class="material-symbols-outlined text-[48px] text-primary-fixed-dim" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

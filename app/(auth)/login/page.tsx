@@ -4,30 +4,25 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginSchema, LoginInput } from "@/lib/schemas/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, PlaneTakeoff } from "lucide-react";
-
-export const dynamic = "force-dynamic";
+import { Globe, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
+  } = useForm<any>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -48,82 +43,85 @@ export default function LoginPage() {
 
       if (result?.error) {
         setError("Invalid email or password");
+        setLoading(false);
       } else {
-        router.push(callbackUrl);
+        router.push("/dashboard");
         router.refresh();
       }
     } catch (err) {
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
+      setError("An unexpected error occurred");
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md">
-      <Card className="border-none shadow-xl rounded-2xl overflow-hidden bg-white">
-        <CardHeader className="space-y-2 text-center pt-8 pb-4">
-          <div className="flex justify-center mb-2 text-[#FF6B35]">
-            <PlaneTakeoff size={40} strokeWidth={2.5} />
-          </div>
-          <CardTitle className="text-3xl font-black text-[#1A1F3C]">Traveloop</CardTitle>
-          <CardDescription className="text-muted-foreground font-medium">
-            Welcome back! Log in to continue your adventure.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <Alert variant="destructive" className="mb-6 rounded-xl bg-destructive/10 text-destructive border-none">
-              <AlertDescription className="font-semibold">{error}</AlertDescription>
-            </Alert>
-          )}
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="font-bold text-[#1A1F3C]">Email Address</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="alex@traveloop.com"
-                {...register("email")}
-                className="h-12 rounded-xl bg-muted/30 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
-              />
-              {errors.email && (
-                <p className="text-xs font-bold text-destructive mt-1 px-1">{errors.email.message}</p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="font-bold text-[#1A1F3C]">Password</Label>
-                <Link href="#" className="text-xs font-bold text-[#FF6B35] hover:underline">Forgot?</Link>
+    <div className="w-full space-y-12 animate-in fade-in duration-1000">
+      <div className="text-center space-y-4">
+        <h1 className="text-5xl font-black text-[#2D3F75] tracking-tighter">Welcome</h1>
+        <p className="text-white text-lg font-medium">Log in to your Traveloop command center</p>
+      </div>
+
+      {error && (
+        <div className="w-full py-4 border-y border-white flex items-center justify-center bg-red-500/10">
+          <p className="text-white text-sm font-bold tracking-widest uppercase">{error}</p>
+        </div>
+      )}
+
+      {/* Big Circular Logo mirroring the screenshot */}
+      <div className="flex justify-center">
+        <div className="w-72 h-72 rounded-full bg-white flex flex-col items-center justify-center p-10 shadow-2xl relative overflow-hidden group hover:scale-105 transition-transform duration-500">
+           <div className="relative z-10 flex flex-col items-center gap-2">
+              <div className="w-36 h-32 bg-gradient-to-br from-blue-500 via-orange-500 to-green-500 rounded-full flex items-center justify-center shadow-inner overflow-hidden">
+                <Globe size={100} className="text-white" strokeWidth={1} />
               </div>
-              <Input
-                id="password"
-                type="password"
-                {...register("password")}
-                className="h-12 rounded-xl bg-muted/30 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
-              />
-              {errors.password && (
-                <p className="text-xs font-bold text-destructive mt-1 px-1">{errors.password.message}</p>
-              )}
+              <span className="text-4xl font-black text-[#1A1F3C] tracking-tighter mt-2">TRAVELOOP</span>
+              <p className="text-[8px] font-bold text-[#1A1F3C]/60 uppercase tracking-[0.3em] text-center">Your Journey in One Loop</p>
+           </div>
+        </div>
+      </div>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-10">
+        <div className="space-y-6">
+          <div className="border-b border-white/20 pb-2">
+            <Label className="text-white text-xs font-black uppercase tracking-[0.2em] mb-2 block">Email Identity</Label>
+            <Input 
+              {...register("email")} 
+              className="bg-transparent border-none h-10 text-lg p-0 rounded-none focus-visible:ring-0 placeholder:text-white/10" 
+              placeholder="explorer@traveloop.app" 
+            />
+          </div>
+
+          <div className="border-b border-white/20 pb-2">
+            <div className="flex justify-between items-center mb-2">
+              <Label className="text-white text-xs font-black uppercase tracking-[0.2em]">Security Key</Label>
+              <Link href="#" className="text-white/40 text-[10px] font-bold uppercase hover:text-[#FF6B35]">Recover</Link>
             </div>
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full h-12 bg-[#FF6B35] hover:bg-[#E85A24] text-white font-black text-base rounded-xl transition-all shadow-lg shadow-[#FF6B35]/20 mt-2"
-            >
-              {loading ? <Loader2 className="animate-spin" /> : "Log In"}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="pb-8 justify-center">
-          <p className="text-sm font-medium text-muted-foreground">
-            Don't have an account?{" "}
-            <Link href="/register" className="text-[#FF6B35] font-black hover:underline ml-1">
-              Create one for free
-            </Link>
-          </p>
-        </CardFooter>
-      </Card>
+            <Input 
+              type="password" 
+              {...register("password")} 
+              className="bg-transparent border-none h-10 text-lg p-0 rounded-none focus-visible:ring-0 placeholder:text-white/10" 
+              placeholder="••••••••" 
+            />
+          </div>
+        </div>
+
+        <div className="space-y-6">
+          <Button 
+            type="submit" 
+            disabled={loading}
+            className="w-full bg-[#FF6B35] hover:bg-[#E85A24] text-white h-14 font-black rounded-2xl text-lg shadow-2xl shadow-orange-500/20 active:scale-95 transition-all"
+          >
+            {loading ? <Loader2 className="h-6 w-6 animate-spin" /> : "Initiate Login"}
+          </Button>
+          
+          <div className="text-center">
+            <p className="text-white/60 text-sm font-medium">
+              New to the loop?{" "}
+              <Link href="/register" className="text-white font-black underline underline-offset-4 decoration-[#FF6B35]">Create Account</Link>
+            </p>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

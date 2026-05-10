@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Itinerary Builder - Traveloop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-background": "#191c1f",
+                      "primary": "#ab3500",
+                      "surface-container-high": "#e7e8ec",
+                      "surface": "#f8f9fd",
+                      "on-secondary-fixed": "#141936",
+                      "secondary-fixed-dim": "#c0c4ea",
+                      "primary-fixed-dim": "#ffb59d",
+                      "surface-container": "#edeef2",
+                      "outline-variant": "#e1bfb5",
+                      "on-error-container": "#93000a",
+                      "inverse-surface": "#2e3134",
+                      "surface-variant": "#e1e2e6",
+                      "on-tertiary-container": "#53240a",
+                      "on-tertiary-fixed-variant": "#6d391d",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#ff6b35",
+                      "on-surface-variant": "#594139",
+                      "inverse-primary": "#ffb59d",
+                      "surface-bright": "#f8f9fd",
+                      "surface-container-low": "#f2f3f7",
+                      "on-primary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb693",
+                      "tertiary": "#895032",
+                      "tertiary-fixed": "#ffdbcc",
+                      "surface-container-highest": "#e1e2e6",
+                      "on-error": "#ffffff",
+                      "primary-fixed": "#ffdbd0",
+                      "on-primary-container": "#5f1900",
+                      "tertiary-container": "#ce8968",
+                      "surface-dim": "#d9dade",
+                      "on-primary-fixed-variant": "#832600",
+                      "on-secondary": "#ffffff",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#d4d8fe",
+                      "on-tertiary-fixed": "#351000",
+                      "on-tertiary": "#ffffff",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#390c00",
+                      "on-surface": "#191c1f",
+                      "surface-tint": "#ab3500",
+                      "on-secondary-container": "#585d7e",
+                      "secondary-fixed": "#dee0ff",
+                      "background": "#f8f9fd",
+                      "outline": "#8d7168",
+                      "on-secondary-fixed-variant": "#404564",
+                      "secondary": "#585c7d",
+                      "inverse-on-surface": "#eff1f5"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "unit": "4px",
+                      "section-gap": "48px",
+                      "container-max": "1440px",
+                      "card-padding": "24px",
+                      "sidebar-width": "280px",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "button": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg-mobile": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "button": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-x-hidden min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 bg-on-secondary-fixed dark:bg-on-background shadow-xl py-6 gap-2 z-40">
+<div class="px-gutter mb-8">
+<h1 class="font-display-lg text-headline-md font-bold text-primary-fixed-dim dark:text-primary">Traveloop</h1>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/70 mt-1 uppercase tracking-widest">Premium Planner</p>
+</div>
+<div class="flex-1 overflow-y-auto w-full">
+<ul class="flex flex-col gap-1 pr-4">
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-button text-button">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 bg-primary/10 text-primary-fixed-dim border-l-4 border-primary px-4 py-3 rounded-r-xl scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-button text-button">Itinerary</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-button text-button">Budget</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-button text-button">Packing List</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-button text-button">Trips</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-button text-button">Settings</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="px-gutter mt-auto flex flex-col gap-4">
+<button class="w-full py-3 bg-gradient-to-r from-primary to-primary-container text-on-primary font-button text-button rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                New Trip
+            </button>
+<ul class="flex flex-col gap-1 border-t border-white/10 pt-4">
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-2 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-2 hover:bg-white/5 hover:text-secondary-fixed-dim transition-all duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-sidebar-width min-h-screen relative flex flex-col md:flex-row">
+<!-- Center Column: Builder -->
+<div class="flex-1 px-4 md:px-12 py-8 max-w-[800px]">
+<!-- Header Section -->
+<header class="mb-12">
+<div class="flex items-center justify-between mb-4">
+<div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-display-lg text-on-background">Japan Explorer</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="calendar_month">calendar_month</span>
+                            Oct 12 - Oct 26, 2024 (14 Days)
+                        </p>
+</div>
+<div class="hidden sm:flex gap-3">
+<button class="px-4 py-2 border border-outline rounded-lg text-on-surface font-button text-button hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="share">share</span> Share
+                        </button>
+<button class="px-4 py-2 bg-on-secondary-fixed text-on-primary rounded-lg font-button text-button hover:bg-on-secondary-fixed-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="save">save</span> Save Draft
+                        </button>
+</div>
+</div>
+</header>
+<!-- Timeline Canvas -->
+<div class="relative">
+<!-- Vertical Timeline Line -->
+<div class="absolute left-8 top-4 bottom-4 w-0.5 bg-outline-variant/50 -z-10 rounded-full"></div>
+<!-- Day 1 Segment -->
+<div class="mb-10 group">
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-8 bg-surface-container-high rounded-full flex items-center justify-center font-label-sm text-label-sm text-on-surface shadow-sm border border-outline-variant/30">
+                            DAY 1
+                        </div>
+<h3 class="font-headline-md text-headline-md text-on-background">Arrival in Tokyo</h3>
+<div class="h-px flex-1 bg-outline-variant/30 ml-4"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+</div>
+<!-- Stop Card 1 (Flight) -->
+<div class="ml-16 mb-4 relative bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md transition-shadow cursor-move flex gap-5">
+<!-- Connecting indicator -->
+<div class="absolute -left-[35px] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="flight_land">flight_land</span>
+</div>
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img alt="Tokyo cityscape at dusk" class="w-full h-full object-cover" data-alt="A sweeping, cinematic view of the Tokyo skyline at dusk, bathed in the neon glow of the city below and a gradient sunset sky transitioning from deep purple to soft orange. The scene is sharp, modern, and high-contrast, fitting a premium travel inspiration mood. The lighting highlights the futuristic architecture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYV9sVD6tk_tlCo8pohKHarkMd9kCtQgU9keGUgMHuTbiuEe7xVH8QMhO89vGqdMWTCcwPBayImq_Dar6pO1c0xRY6HsVbIL53BrLb4k2_nDaXY2fql1NyAsL6jsBHE-57rnRmrMvSEeMibIQaDr6pRSvcptdFpAJMtXCiKwELh3bNtRu19d4SVqw5PsWJSTa8Mr0mQl9dGlal_IvdGz1bP883tOiT5KDb404ep057HqfK5mrliXP3LTt77fvj--9vIPLP5-XtsR4"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider mb-1 block">14:30 • Narita Airport</span>
+<h4 class="font-headline-md text-body-lg font-semibold text-on-background">JL 007 Arrival</h4>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+<p class="text-body-md text-on-surface-variant mt-2 line-clamp-2">Terminal 2. Pick up JR Pass at the counter before heading to the city.</p>
+</div>
+</div>
+<!-- Transport Indicator -->
+<div class="ml-16 mb-4 flex items-center gap-3 text-on-surface-variant py-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-sm" data-icon="train">train</span>
+</div>
+<span class="font-label-sm text-label-sm">Narita Express (N'EX) • 1h 15m</span>
+<div class="h-px flex-1 bg-outline-variant/30 border-dashed border-b"></div>
+</div>
+<!-- Stop Card 2 (Hotel) -->
+<div class="ml-16 mb-4 relative bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-outline-variant/20 hover:shadow-md transition-shadow cursor-move flex gap-5">
+<div class="absolute -left-[35px] top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-container border-2 border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface text-sm" data-icon="hotel">hotel</span>
+</div>
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img alt="Minimalist hotel room" class="w-full h-full object-cover" data-alt="A bright, minimalist luxury hotel room interior. Large floor-to-ceiling windows flood the space with soft, natural daylight. The decor features warm wood tones, crisp white linens, and sleek, functional modern furniture. The aesthetic is clean, peaceful, and premium, evoking a sense of calm after travel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUplRDc0WVanUfDms6TjpQI6rnhBCqqbpaViEGCw3EQ7reJaek90d_12J6zTBGWlH04UxdKE3uhW2CM_iLm8gt8beQQZvLy6YHAxahfQy5VhG4bOfSeX18jUST1TrgWsIjODhMj8mjVE_g8ETMoeCZ9eFWb_0ZYK16bvxZQGzAhSjmYy1xCM5oLtfe67d1bTvx5ewCoNmEuX_FIwD0emTAuFyVl6_Hnsfzu-OHJ7Z9-Fda3klbRnoNvKUvxrqFTvoLG94-DNnsxMc"/>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider mb-1 block">16:00 • Check-in</span>
+<h4 class="font-headline-md text-body-lg font-semibold text-on-background">The Gate Hotel Tokyo</h4>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined" data-icon="more_vert">more_vert</span></button>
+</div>
+<div class="mt-3 bg-surface-container-low p-3 rounded-lg border border-outline-variant/20 relative group/note">
+<span class="material-symbols-outlined absolute top-3 left-3 text-on-surface-variant text-sm" data-icon="edit_note">edit_note</span>
+<p class="text-body-md text-on-surface-variant pl-8 italic text-sm">Confirmation #H-49281. Requested high floor.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Day 2 Segment (Collapsed) -->
+<div class="mb-10 group opacity-70 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-4">
+<div class="w-16 h-8 bg-surface-container rounded-full flex items-center justify-center font-label-sm text-label-sm text-on-surface-variant border border-outline-variant/30 cursor-pointer hover:bg-surface-container-high transition-colors">
+                            DAY 2
+                        </div>
+<h3 class="font-headline-md text-headline-md text-on-surface-variant">Shibuya &amp; Harajuku</h3>
+<span class="font-label-sm text-label-sm bg-surface-container-high px-2 py-1 rounded text-on-surface-variant ml-2">4 Stops</span>
+<div class="h-px flex-1 bg-outline-variant/30 ml-4"></div>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="expand_more">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Add New Day Button -->
+<button class="ml-16 mt-8 py-4 px-6 border-2 border-dashed border-outline-variant/50 rounded-xl w-[calc(100%-4rem)] text-on-surface-variant font-button text-button flex items-center justify-center gap-2 hover:bg-surface-container-low hover:border-primary/50 hover:text-primary transition-all">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                    Add Day
+                </button>
+</div>
+</div>
+<!-- Right Sticky Sidebar: Trip Summary -->
+<aside class="hidden xl:block w-[340px] bg-surface-container-lowest border-l border-outline-variant/20 sticky top-0 h-screen overflow-y-auto p-8 shadow-[-4px_0_24px_-10px_rgba(0,0,0,0.05)]">
+<!-- Progress Visualization -->
+<div class="mb-8">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Trip Progress</h4>
+<!-- Bento style progress card -->
+<div class="bg-gradient-to-br from-on-secondary-fixed to-inverse-surface rounded-2xl p-6 text-on-primary shadow-lg relative overflow-hidden">
+<!-- Decorative subtle blur -->
+<div class="absolute -right-10 -top-10 w-32 h-32 bg-primary/30 rounded-full blur-[40px]"></div>
+<div class="relative z-10 flex items-end justify-between mb-2">
+<span class="font-display-lg text-display-lg-mobile">25%</span>
+<span class="font-label-sm text-label-sm opacity-80 mb-2">PLANNED</span>
+</div>
+<div class="w-full h-2 bg-white/20 rounded-full overflow-hidden relative z-10">
+<div class="h-full bg-primary-fixed-dim rounded-full" style="width: 25%;"></div>
+</div>
+<p class="font-body-md text-body-md text-sm mt-3 opacity-90 relative z-10">3 of 14 days completed</p>
+</div>
+</div>
+<!-- Budget Mini Widget -->
+<div class="mb-8">
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4 flex justify-between">
+                    Budget Estimate
+                    <a class="text-primary hover:underline lowercase" href="#">details</a>
+</h4>
+<div class="bg-surface rounded-xl p-5 border border-outline-variant/30">
+<div class="flex justify-between items-baseline mb-3">
+<span class="font-display-lg text-headline-md text-on-background">$4,250</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">/ $5,000</span>
+</div>
+<!-- Minimal bar chart representation -->
+<div class="flex gap-1 h-12 items-end">
+<div class="w-full bg-surface-container rounded-t-sm h-[40%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 font-label-sm text-[10px] opacity-0 group-hover:opacity-100 bg-on-background text-on-primary px-2 py-1 rounded transition-opacity">Flights</div>
+</div>
+<div class="w-full bg-primary/40 rounded-t-sm h-[80%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 font-label-sm text-[10px] opacity-0 group-hover:opacity-100 bg-on-background text-on-primary px-2 py-1 rounded transition-opacity">Stays</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[20%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 font-label-sm text-[10px] opacity-0 group-hover:opacity-100 bg-on-background text-on-primary px-2 py-1 rounded transition-opacity">Food</div>
+</div>
+<div class="w-full bg-surface-container rounded-t-sm h-[30%] relative group">
+<div class="absolute bottom-full mb-1 left-1/2 -translate-x-1/2 font-label-sm text-[10px] opacity-0 group-hover:opacity-100 bg-on-background text-on-primary px-2 py-1 rounded transition-opacity">Activities</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Destinations List -->
+<div>
+<h4 class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-4">Destinations</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-3 bg-surface-container-low p-3 rounded-lg border border-outline-variant/10">
+<div class="w-10 h-10 rounded bg-primary/10 flex items-center justify-center text-primary font-label-sm text-label-sm">TYO</div>
+<div>
+<p class="font-button text-button text-on-background">Tokyo</p>
+<p class="font-body-md text-[13px] text-on-surface-variant">5 Nights</p>
+</div>
+</li>
+<li class="flex items-center gap-3 bg-surface-container-low p-3 rounded-lg border border-outline-variant/10">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center text-on-surface-variant font-label-sm text-label-sm">KYT</div>
+<div>
+<p class="font-button text-button text-on-background">Kyoto</p>
+<p class="font-body-md text-[13px] text-on-surface-variant">4 Nights</p>
+</div>
+</li>
+<li class="flex items-center justify-center p-3 rounded-lg border border-dashed border-outline-variant/50 text-on-surface-variant hover:bg-surface-container-low transition-colors cursor-pointer">
+<span class="material-symbols-outlined mr-2 text-sm" data-icon="add">add</span>
+<span class="font-label-sm text-label-sm">Add City</span>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</body></html>

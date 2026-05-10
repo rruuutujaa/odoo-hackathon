@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Traveloop - Trip Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1f",
+                        "primary": "#ab3500",
+                        "surface-container-high": "#e7e8ec",
+                        "surface": "#f8f9fd",
+                        "on-secondary-fixed": "#141936",
+                        "secondary-fixed-dim": "#c0c4ea",
+                        "primary-fixed-dim": "#ffb59d",
+                        "surface-container": "#edeef2",
+                        "outline-variant": "#e1bfb5",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#2e3134",
+                        "surface-variant": "#e1e2e6",
+                        "on-tertiary-container": "#53240a",
+                        "on-tertiary-fixed-variant": "#6d391d",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#ff6b35",
+                        "on-surface-variant": "#594139",
+                        "inverse-primary": "#ffb59d",
+                        "surface-bright": "#f8f9fd",
+                        "surface-container-low": "#f2f3f7",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "tertiary": "#895032",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-container-highest": "#e1e2e6",
+                        "on-error": "#ffffff",
+                        "primary-fixed": "#ffdbd0",
+                        "on-primary-container": "#5f1900",
+                        "tertiary-container": "#ce8968",
+                        "surface-dim": "#d9dade",
+                        "on-primary-fixed-variant": "#832600",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#d4d8fe",
+                        "on-tertiary-fixed": "#351000",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#390c00",
+                        "on-surface": "#191c1f",
+                        "surface-tint": "#ab3500",
+                        "on-secondary-container": "#585d7e",
+                        "secondary-fixed": "#dee0ff",
+                        "background": "#f8f9fd",
+                        "outline": "#8d7168",
+                        "on-secondary-fixed-variant": "#404564",
+                        "secondary": "#585c7d",
+                        "inverse-on-surface": "#eff1f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "section-gap": "48px",
+                        "container-max": "1440px",
+                        "card-padding": "24px",
+                        "sidebar-width": "280px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Plus Jakarta Sans"],
+                        "button": ["Inter"],
+                        "label-sm": ["JetBrains Mono"],
+                        "display-lg-mobile": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "button": ["14px", { "lineHeight": "1.0", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "display-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 228, 237, 0.5);
+            box-shadow: 0 4px 24px rgba(20, 25, 54, 0.04);
+        }
+        .bento-card {
+            background: #FFFFFF;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 32px rgba(20, 25, 54, 0.04);
+            border: 1px solid #E2E4ED;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col h-screen w-sidebar-width fixed left-0 top-0 bg-on-secondary-fixed shadow-2xl py-6 gap-2 z-50">
+<div class="px-6 mb-8 flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold">
+                T
+            </div>
+<div>
+<h1 class="font-display-lg text-headline-md font-bold text-primary-fixed-dim">Traveloop</h1>
+<p class="font-label-sm text-label-sm text-secondary-fixed-dim/70 mt-1">Premium Planner</p>
+</div>
+</div>
+<button class="mx-6 mb-6 bg-primary text-on-primary font-button text-button py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-md">
+<span class="material-symbols-outlined" data-icon="add" style="font-size: 20px;">add</span>
+            New Trip
+        </button>
+<div class="flex-1 overflow-y-auto px-2 space-y-1">
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-sm text-label-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="font-label-sm text-label-sm">Itinerary</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-label-sm text-label-sm">Budget</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-sm text-label-sm">Packing List</span>
+</a>
+<a class="flex items-center gap-3 bg-primary/10 text-primary-fixed-dim border-l-4 border-primary px-4 py-3 rounded-r-xl scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="font-label-sm text-label-sm">Trips</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-sm text-label-sm">Settings</span>
+</a>
+</div>
+<div class="px-2 mt-auto space-y-1">
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span class="font-label-sm text-label-sm">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200 rounded-r-xl" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-sm text-label-sm">Logout</span>
+</a>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 md:ml-[280px] w-full max-w-[1440px] mx-auto px-4 md:px-section-gap py-8">
+<!-- Top Bar / Breadcrumbs -->
+<header class="flex items-center justify-between mb-8">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<a class="hover:text-primary transition-colors" href="#">Trips</a>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="text-on-background font-bold">Kyoto Autumn Escape</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex -space-x-3">
+<img alt="Collaborator 1" class="w-8 h-8 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfuR_bNa_qRjcvhW7CWYOmTQ3EwlcgQ5cecdo2MMhRGkajF-1T2Qrgojgfc6A9Tw_n1JmH0O9iSE-X-7-KNoosphC1wwOXeAbzcM3T2Bfw9DrYb76eT97_km3Mw4k-cCRfnGomOzctPZ0_PHiMb0Srl2WJBJZITVfDDLKtsWzaugLhyJoVYwiIfXKvrKDhDCSd6z9fGIhtWOxM0KIU9gQDgGKgpno4SmFWaCNI2ReF21AzxVXWTLxP88kVI91Fmd7Dq8g6kRWNN6c"/>
+<img alt="Collaborator 2" class="w-8 h-8 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpPMAXKXBg_M2wSZ9PH3kpUDq2v5C8gZ0gWm9sggZndj9WkCpskYSPYYb0B788PPGHlXzB7qO8PP0gw5BoC8mKbxCHaaFo69E2r500sbUkXs22fyizpPYzHxkRww1Q0klZJ0xrzyKGUwVSD2p5SJB4d2vku_XRJC7EZxokpwKQOb-8xVqjqDT1otMpWyjZD61P91KTrt9rAzEvCRmiakOtNLOLA0j7sDb-Y4woQ1gSrKjd-UfYUm6FyXACJDI9gz87BKgrE3ugKpU"/>
+<img alt="Collaborator 3" class="w-8 h-8 rounded-full border-2 border-surface object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzAdiKmuT-6Q2OxFShINSd2gQ4iWx-Bgt2qY3iJg4IE1g7zh1PZTEcxIcX8Qv_svh9D_NbL12Lgb1yhkA0p3FA3co0QLwDXMMHWFW76mpvrAlnqHYlHyeeU_3jSaLzQbd7bw-O15JUKra_dHq5rwfJNRh0SyxoawIESCQxQpJCIlN4GZ9SPtK_wAHJLRl0onHY2em734f_2ydhw6VxfC3fVnB0Zi6IBLG8wLlKY08Hg2jrT2zsgbbooOeqOD8onvvWzZkjpPdyTg4"/>
+<button class="w-8 h-8 rounded-full border-2 border-surface bg-surface-container-high flex items-center justify-center text-xs font-bold text-on-surface hover:bg-surface-variant transition-colors">+</button>
+</div>
+<button class="bg-surface-container-high hover:bg-surface-variant text-on-surface p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</header>
+<!-- Hero Section -->
+<div class="bento-card mb-8 relative h-[400px] md:h-[500px]">
+<img alt="Kyoto Autumn" class="absolute inset-0 w-full h-full object-cover" data-alt="A breathtaking view of a serene Japanese garden in Kyoto during autumn. The scene is dominated by vibrant red and orange maple leaves framing a traditional wooden pavilion overlooking a calm koi pond. Soft, golden hour sunlight filters through the canopy, creating a warm, inviting, and peaceful mood. The aesthetic is high-end travel photography, rich in color and sharp detail, perfectly suited for a luxury travel planning interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQhycyDEtyfkjtGwVjj84QVA2uNtKjcQMyxEdYIg_w-_vLPh8tjfoO_xngZJ-IEbTb4RlaYsiQ1SGbjkfNSXnignyc7BgBm4PmNtSYeDNEMNmiS0Il9qM88TDxac1iy0WKcQtTm4ia99g--w5WsSnGXMAT1S7QA11qhCJ1hN2dk3xmHY-7qKxgjhIH9puzt6hYpdKTT39i38FB_6wNI4auqqC4dmvocdQmSW_fLCos77zeNMUl4M3roKdssxcAF4KaylOgO5NcX0Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-on-background/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full flex flex-col md:flex-row justify-between items-end gap-6">
+<div class="text-on-primary">
+<div class="flex items-center gap-2 mb-3">
+<span class="bg-primary/90 backdrop-blur-sm text-on-primary px-3 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider">Upcoming</span>
+<span class="glass-panel text-on-surface px-3 py-1 rounded-full font-label-sm text-label-sm">Nov 12 - Nov 20</span>
+</div>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg font-bold mb-2">Kyoto Autumn Escape</h1>
+<p class="font-body-lg text-body-lg text-on-primary/90 max-w-2xl">A 8-day journey through ancient temples, serene gardens, and culinary delights in Japan's cultural heart.</p>
+</div>
+<div class="glass-panel rounded-2xl p-4 flex gap-6 text-on-surface w-full md:w-auto mt-4 md:mt-0">
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-1">partly_cloudy_day</span>
+<span class="font-bold">68°F</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Kyoto</span>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-1">flight_takeoff</span>
+<span class="font-bold">14h</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Flight Time</span>
+</div>
+<div class="w-px bg-outline-variant/30"></div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-primary mb-1">currency_yen</span>
+<span class="font-bold">¥150</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Exchange Rate</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Itinerary -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Day Tabs -->
+<div class="flex overflow-x-auto gap-3 pb-2 scrollbar-hide">
+<button class="bg-primary text-on-primary px-6 py-3 rounded-full font-button text-button whitespace-nowrap shadow-sm">Day 1 • Nov 12</button>
+<button class="bg-surface text-on-surface-variant hover:bg-surface-container-high px-6 py-3 rounded-full font-button text-button whitespace-nowrap transition-colors border border-outline-variant/30">Day 2 • Nov 13</button>
+<button class="bg-surface text-on-surface-variant hover:bg-surface-container-high px-6 py-3 rounded-full font-button text-button whitespace-nowrap transition-colors border border-outline-variant/30">Day 3 • Nov 14</button>
+<button class="bg-surface text-on-surface-variant hover:bg-surface-container-high px-6 py-3 rounded-full font-button text-button whitespace-nowrap transition-colors border border-outline-variant/30">Day 4 • Nov 15</button>
+</div>
+<!-- Timeline / Activities -->
+<div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-primary/20 before:via-primary/10 before:to-transparent">
+<!-- Activity Card 1 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-primary text-on-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-auto md:mr-auto">
+<span class="material-symbols-outlined text-sm">flight_land</span>
+</div>
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow ml-4 md:ml-0">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">14:30</span>
+<span class="bg-surface-container px-2 py-1 rounded text-[10px] font-label-sm text-on-surface-variant">Arrival</span>
+</div>
+<h3 class="font-headline-md text-[18px] font-bold mb-1">Arrive at Kansai International (KIX)</h3>
+<p class="text-sm text-on-surface-variant mb-3">Clear customs and pick up JR Pass.</p>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-[14px]">train</span>
+<span>Haruka Express to Kyoto Station (75 mins)</span>
+</div>
+</div>
+</div>
+<!-- Activity Card 2 (Hotel) -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-surface-container-high text-on-surface shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-auto md:mr-auto">
+<span class="material-symbols-outlined text-sm">hotel</span>
+</div>
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow ml-4 md:ml-0 flex gap-4">
+<img alt="Hotel" class="w-24 h-24 rounded-xl object-cover shrink-0" data-alt="A luxurious, minimalist hotel room in Kyoto featuring modern Japanese design elements. Tatami mats line the floor, and shoji screens slide open to reveal a private zen garden. Soft, warm ambient lighting creates a relaxing and exclusive atmosphere. High-end lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCP4NdRynLmPh1LUnlvXCdzp-Lg-L8MzQjmSS4vsXDFJUpBIa-gVYy43Dx22nq3E-vM4hg3zjsYsUniFz4IE-_oXSblzx49R6ANy5tmfynfIgTVU4mZMsmKWT4jbVtGnXZRcs5pAusdRVnTuxdt_UHv9zF6Z6GH56T0V6phI2P7YkThJt0p9Rp2vk03UlcHRcVlObZHmangJHM7OvYUWgbT8ylbLWa1bNzp272GOLHDZ8L60AayNJDvl_h0wAA72KUqvI5kA-bsQIE"/>
+<div>
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">16:00</span>
+</div>
+<h3 class="font-headline-md text-[18px] font-bold mb-1">Check-in: The Ritz-Carlton</h3>
+<div class="flex items-center gap-1 mb-2">
+<span class="material-symbols-outlined text-[14px] text-amber-400" data-weight="fill">star</span>
+<span class="text-sm font-bold">4.9</span>
+<span class="text-xs text-on-surface-variant">(128 reviews)</span>
+</div>
+<p class="text-xs text-primary font-medium hover:underline cursor-pointer">View Reservation Details</p>
+</div>
+</div>
+</div>
+<!-- Activity Card 3 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+<div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-surface bg-surface-container-high text-on-surface shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 ml-0 md:ml-auto md:mr-auto">
+<span class="material-symbols-outlined text-sm">restaurant</span>
+</div>
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded-2xl bg-white border border-outline-variant/30 shadow-sm hover:shadow-md transition-shadow ml-4 md:ml-0">
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold">19:00</span>
+<span class="bg-tertiary-container/20 text-tertiary px-2 py-1 rounded text-[10px] font-label-sm">Dinner</span>
+</div>
+<h3 class="font-headline-md text-[18px] font-bold mb-1">Pontocho Alley Dinner</h3>
+<p class="text-sm text-on-surface-variant mb-3">Explore the narrow dining alley and grab yakitori at a local spot.</p>
+<div class="flex items-center gap-2 text-xs text-on-surface-variant bg-surface-container-low p-2 rounded-lg">
+<span class="material-symbols-outlined text-[14px]">info</span>
+<span>Reservation recommended. Expect ¥3,000 - ¥5,000 pp.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Map & Quick Info -->
+<div class="space-y-6">
+<!-- Interactive Map Card -->
+<div class="bento-card p-4 relative h-[300px] flex flex-col group cursor-pointer">
+<img alt="Map View" class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500" data-alt="A clean, modern, and stylized digital map interface focused on the Kyoto region of Japan. The map features a light mode theme with subtle topographical details, soft grey roads, and a prominent orange location pin marking a central area. The style resembles a high-end UI component from a premium travel app." data-location="Kyoto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYhnOyz2Yqmw-B4RTpNeA97BUZX25UO9hp2VLDzZC80V9GHgEt3A_UBYLsof4qoP391qu5aiYoTGB8vwY6H0-ksP6fdBDibl_48aT1utQkkgH15ZaXxaxghIhgp1-gkC1LaH0nIcguH5m7cScrNGP8VhbSxx5hHIUZm4Zva8fEuXEGf95b6YV-n6mKMsQ6Yv2rkzxjRxAMMG613ZYObSOt7nUmRjpoCs9wJDKklLAmkYpPVtMRuCr-35nMtlZ8VYFAYr53dt3XZWA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-background/60 to-transparent"></div>
+<div class="relative z-10 mt-auto">
+<div class="glass-panel p-3 rounded-xl flex items-center justify-between">
+<div>
+<h4 class="font-bold text-on-surface text-sm">Interactive Map</h4>
+<p class="text-xs text-on-surface-variant">View all 14 saved locations</p>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">open_in_full</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Stats / Budget -->
+<div class="bento-card p-6">
+<h3 class="font-headline-md text-[20px] font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">account_balance_wallet</span>
+                        Budget Overview
+                    </h3>
+<div class="space-y-4">
+<div>
+<div class="flex justify-between text-sm mb-1">
+<span class="text-on-surface-variant">Total Spend</span>
+<span class="font-bold">¥120,000 / ¥200,000</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 60%"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 pt-4 border-t border-outline-variant/20">
+<div>
+<span class="block text-xs text-on-surface-variant mb-1">Accommodation</span>
+<span class="font-bold text-sm">¥85,000</span>
+</div>
+<div>
+<span class="block text-xs text-on-surface-variant mb-1">Flights</span>
+<span class="font-bold text-sm">¥35,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Important Documents -->
+<div class="bento-card p-6">
+<h3 class="font-headline-md text-[20px] font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                        Documents
+                    </h3>
+<div class="space-y-3">
+<a class="flex items-center gap-3 p-3 rounded-xl border border-outline-variant/30 hover:bg-surface-container transition-colors" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">flight</span>
+</div>
+<div>
+<span class="block text-sm font-bold">Flight Tickets.pdf</span>
+<span class="block text-xs text-on-surface-variant">Added 2 days ago</span>
+</div>
+</a>
+<a class="flex items-center gap-3 p-3 rounded-xl border border-outline-variant/30 hover:bg-surface-container transition-colors" href="#">
+<div class="w-10 h-10 rounded-lg bg-surface flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">hotel</span>
+</div>
+<div>
+<span class="block text-sm font-bold">Hotel Confirmation</span>
+<span class="block text-xs text-on-surface-variant">Added 1 week ago</span>
+</div>
+</a>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

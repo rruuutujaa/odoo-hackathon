@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Traveloop - Premium Travel Planning</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1f",
+                    "primary": "#ab3500",
+                    "surface-container-high": "#e7e8ec",
+                    "surface": "#f8f9fd",
+                    "on-secondary-fixed": "#141936",
+                    "secondary-fixed-dim": "#c0c4ea",
+                    "primary-fixed-dim": "#ffb59d",
+                    "surface-container": "#edeef2",
+                    "outline-variant": "#e1bfb5",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2e3134",
+                    "surface-variant": "#e1e2e6",
+                    "on-tertiary-container": "#53240a",
+                    "on-tertiary-fixed-variant": "#6d391d",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ff6b35",
+                    "on-surface-variant": "#594139",
+                    "inverse-primary": "#ffb59d",
+                    "surface-bright": "#f8f9fd",
+                    "surface-container-low": "#f2f3f7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "tertiary": "#895032",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-highest": "#e1e2e6",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#ffdbd0",
+                    "on-primary-container": "#5f1900",
+                    "tertiary-container": "#ce8968",
+                    "surface-dim": "#d9dade",
+                    "on-primary-fixed-variant": "#832600",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d4d8fe",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#390c00",
+                    "on-surface": "#191c1f",
+                    "surface-tint": "#ab3500",
+                    "on-secondary-container": "#585d7e",
+                    "secondary-fixed": "#dee0ff",
+                    "background": "#f8f9fd",
+                    "outline": "#8d7168",
+                    "on-secondary-fixed-variant": "#404564",
+                    "secondary": "#585c7d",
+                    "inverse-on-surface": "#eff1f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.25rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "48px",
+                    "container-max": "1440px",
+                    "card-padding": "24px",
+                    "sidebar-width": "280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans"],
+                    "button": ["Inter"],
+                    "label-sm": ["JetBrains Mono"],
+                    "display-lg-mobile": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "button": ["14px", {"lineHeight": "1.0", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav aria-label="Main Navigation" class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="flex justify-between items-center w-full px-gutter max-w-container-max mx-auto h-20">
+<!-- Brand -->
+<a class="font-display-lg text-headline-md font-bold text-primary flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-primary" data-icon="travel_explore" data-weight="fill" style="font-variation-settings: 'FILL' 1;">travel_explore</span>
+                Traveloop
+            </a>
+<!-- Navigation Links (Web) -->
+<div class="hidden md:flex items-center gap-8 font-body-md text-body-md">
+<a class="text-primary font-bold border-b-2 border-primary py-2 transition-all duration-200" href="#">Explore</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Destinations</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Pricing</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">About</a>
+</div>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="hidden md:block font-button text-button text-primary hover:text-primary-container transition-colors duration-200 px-4 py-2">Log In</button>
+<button class="font-button text-button bg-gradient-to-r from-primary to-primary-container text-on-primary px-6 py-3 rounded-full shadow-md hover:shadow-lg hover:opacity-90 transition-all duration-200">Sign Up</button>
+</div>
+</div>
+</nav>
+<!-- Hero Section with Floating Search -->
+<header class="relative min-h-[921px] flex items-center justify-center pt-20 overflow-hidden">
+<!-- Cinematic Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Hero Background" class="w-full h-full object-cover object-center" data-alt="A breathtaking, cinematic wide shot of a pristine turquoise lake surrounded by towering, majestic snow-capped mountains under a clear blue sky. The lighting is golden hour, casting long, soft shadows and highlighting the rugged textures of the peaks. A solitary wooden canoe rests gently near the rocky shore, suggesting an imminent adventure. The overall aesthetic is incredibly crisp, inspiring, and high-end, perfectly aligned with a premium travel brand's light-mode visual identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCjJoux2O6njPX2MhjnJ_2vJUJXViBwYLYCd-F4ofnufXFkPFvafiiQDHwWF_4i0rdsuBGrW5nvfUKjs9PCrQAVaXl7I_fAyaABpVYRM6-pmqlAuKxyz-nxprDLl6HCuc7uUontMz3_e6m9hIsvGw2G1DKIoAcxWJxGja85Uf3bxT8UVF3CuMEAr6JWM64vf2DJy-TB6R8duwbnvDNdc6VeLZe_nRJ2G_qBs5cH-gfIL0tImr3J1XHxNBd4ycNTgeVn3EIfL-M9tw"/>
+<!-- Subtle gradient overlay to ensure text readability -->
+<div class="absolute inset-0 bg-gradient-to-b from-surface/40 via-transparent to-background/90"></div>
+</div>
+<div class="relative z-10 text-center px-4 md:px-gutter max-w-container-max mx-auto flex flex-col items-center mt-12 md:mt-0">
+<span class="font-label-sm text-label-sm text-on-secondary bg-primary/80 backdrop-blur-sm px-4 py-1.5 rounded-full mb-6 inline-block uppercase tracking-widest shadow-sm">Discover the Unseen</span>
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-primary mb-6 drop-shadow-lg max-w-4xl leading-tight">
+                Design Your Perfect Journey With Precision
+            </h1>
+<p class="font-body-lg text-body-lg text-on-primary/90 mb-12 max-w-2xl drop-shadow-md">
+                Experience the world's most extraordinary destinations. Curated itineraries, seamless planning, and unforgettable memories await.
+            </p>
+<!-- Floating Glassmorphism Search Bar -->
+<div class="bg-surface/80 backdrop-blur-2xl rounded-full p-2 shadow-[0_8px_32px_rgba(25,28,31,0.1)] border border-white/40 flex flex-col md:flex-row items-center w-full max-w-4xl mx-auto gap-2 md:gap-0 mt-8">
+<!-- Location -->
+<div class="flex-1 flex items-center gap-3 px-6 py-3 md:py-4 w-full hover:bg-white/50 rounded-full transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="location_on">location_on</span>
+<div class="flex flex-col text-left">
+<label class="font-label-sm text-[10px] text-on-surface-variant/70 uppercase">Location</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 font-body-md text-on-surface placeholder:text-on-surface-variant font-medium outline-none w-full" placeholder="Where to?" type="text"/>
+</div>
+</div>
+<div class="hidden md:block w-px h-10 bg-outline-variant/30"></div>
+<!-- Dates -->
+<div class="flex-1 flex items-center gap-3 px-6 py-3 md:py-4 w-full hover:bg-white/50 rounded-full transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="calendar_month">calendar_month</span>
+<div class="flex flex-col text-left">
+<label class="font-label-sm text-[10px] text-on-surface-variant/70 uppercase">Dates</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 font-body-md text-on-surface placeholder:text-on-surface-variant font-medium outline-none w-full cursor-pointer" placeholder="Add dates" readonly="" type="text"/>
+</div>
+</div>
+<div class="hidden md:block w-px h-10 bg-outline-variant/30"></div>
+<!-- Guests -->
+<div class="flex-1 flex items-center justify-between px-6 py-3 md:py-4 w-full hover:bg-white/50 rounded-full transition-colors cursor-pointer group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary group-hover:text-primary transition-colors" data-icon="group">group</span>
+<div class="flex flex-col text-left">
+<label class="font-label-sm text-[10px] text-on-surface-variant/70 uppercase">Guests</label>
+<input class="bg-transparent border-none p-0 focus:ring-0 font-body-md text-on-surface placeholder:text-on-surface-variant font-medium outline-none w-full cursor-pointer" placeholder="Add guests" readonly="" type="text"/>
+</div>
+</div>
+<!-- Search Button -->
+<button class="bg-gradient-to-r from-primary to-primary-container text-on-primary p-3 rounded-full hover:shadow-lg hover:scale-105 transition-all duration-200 flex items-center justify-center shrink-0 ml-2">
+<span class="material-symbols-outlined" data-icon="search" data-weight="fill" style="font-variation-settings: 'FILL' 1;">search</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="relative z-20 bg-background -mt-8 pt-16 pb-24 rounded-t-3xl border-t border-outline-variant/20 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+<!-- Trending Destinations Carousel -->
+<section class="max-w-container-max mx-auto px-4 md:px-gutter mb-section-gap">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">Trending Now</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Handpicked locations for your next escape.</p>
+</div>
+<div class="flex gap-2">
+<button class="w-10 h-10 rounded-full bg-surface-container border border-outline-variant/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary" data-icon="arrow_back">arrow_back</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container border border-outline-variant/50 flex items-center justify-center hover:bg-primary/10 hover:text-primary hover:border-primary/30 transition-colors">
+<span class="material-symbols-outlined text-secondary" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="flex gap-6 overflow-x-auto pb-8 snap-x snap-mandatory hide-scrollbar" style="scrollbar-width: none;">
+<!-- Card 1 -->
+<div class="snap-start shrink-0 w-[280px] md:w-[360px] group cursor-pointer">
+<div class="relative h-[400px] rounded-2xl overflow-hidden mb-4 shadow-[0_4px_20px_rgba(20,25,54,0.08)]">
+<img alt="Cinque Terre" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A picturesque view of Cinque Terre, Italy, showing colorful, tightly packed houses clinging to steep, terraced cliffs overlooking the deep blue Ligurian Sea. The scene is bathed in bright, warm afternoon sunlight, creating high contrast and vibrant hues of pink, yellow, and orange against the lush green hillside. The overall style is airy, premium, and evocative of a high-end European summer vacation, fitting seamlessly into a light-mode travel UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl4-qgCoZSa2Xlf9zqMtE9qdrSjarN0_hMqX2JrtM_G1L-McYCkTF65cGZ8Yad1fycCoonfMwAg08exkU_wrxC6H9n19vETG7ZYN1O-QVCgbbiaxjh6IilkMF9cAE9Ka3_MkrAh19U7WNw3vAG2psGBCH5N3lj_BoX1DUEhJvYCFwC7-yJcbA9jjcUGYPE2uOpWpMFrVFbma2419y2SOqp9tvDV_vjz_uOkRJ_YsCnu_rT7y96CYfQYMVSgeHSgkxNJ_9AZMDAnQ8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-white/20 backdrop-blur-md text-white font-label-sm text-label-sm px-3 py-1 rounded-full border border-white/30 mb-3 inline-block">Coastal</span>
+<h3 class="font-headline-md text-headline-md text-white font-bold drop-shadow-md">Cinque Terre</h3>
+<p class="font-body-md text-body-md text-white/90 flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span> Italy
+                            </p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-start shrink-0 w-[280px] md:w-[360px] group cursor-pointer">
+<div class="relative h-[400px] rounded-2xl overflow-hidden mb-4 shadow-[0_4px_20px_rgba(20,25,54,0.08)]">
+<img alt="Kyoto" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A serene image of a traditional Japanese pagoda in Kyoto, framed by vibrant, blooming pink cherry blossoms during early spring. The sky is a soft, pastel blue with gentle, diffuse light. The intricate wooden details of the temple roof contrast beautifully against the delicate flowers. The mood is tranquil, zen, and culturally rich, embodying a sophisticated travel aesthetic perfect for an airy, modern interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPQeNNN53GepurDNnhe-DZWnN_F8txEpz2FQHyCGHyDn5KYVwhrevR2h9FtOBDbIf_CI4Vom5XDag8B6TXz4ZnrbE6AVA6EHcrV8D1nnkacNfB6KIU9qdbRBfbiWrifN4U--09nfggmi5ij7BYtju6-5Bp3fnzg4c3JR8eWAKE0twCYjmdzjI-rKuKypzj2VWwM7qNqnxokwVroFZUCH6djyc0JhVXfPj31WH3fxSpyxqk8BZOQun_oxEZobKCAlSPtzBblyTGC5w"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent"></div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-sm">
+<span class="material-symbols-outlined text-primary" data-icon="favorite" data-weight="fill" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-white/20 backdrop-blur-md text-white font-label-sm text-label-sm px-3 py-1 rounded-full border border-white/30 mb-3 inline-block">Cultural</span>
+<h3 class="font-headline-md text-headline-md text-white font-bold drop-shadow-md">Kyoto</h3>
+<p class="font-body-md text-body-md text-white/90 flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span> Japan
+                            </p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="snap-start shrink-0 w-[280px] md:w-[360px] group cursor-pointer">
+<div class="relative h-[400px] rounded-2xl overflow-hidden mb-4 shadow-[0_4px_20px_rgba(20,25,54,0.08)]">
+<img alt="Dubai" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A dynamic, ultra-modern cityscape of Dubai at twilight, featuring futuristic, glass-clad skyscrapers piercing a deep blue sky. Soft, warm artificial lights begin to illuminate the buildings and the intricate highway systems below. The atmosphere is luxurious, energetic, and highly advanced. The clean lines and glass surfaces of the architecture perfectly complement a hybrid glassmorphism design system in a premium UI context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOYWnq9inqacCkqNpzIZ6MWcmlUReOrUe0ncm1at3BjZ0OG8UO0SXd3skK4tWRnib8DRGZH8fnVvOS9rEuR6vbpUDyZ1K06kVTjGP82pYhjhMvsdSkd1vLChH1o_Ii-LLGb-393X0YA1ISvN3veklMlQRQ0YrE-Yv_7E0uQi5rFHdDQ1HKhqckwtN7oFrAU_FzPaenbyO9FITIoXyCO3FwDBQFW7nmKvFINdxxM2YFbKOasTsmGLldQgbR-HbuaVpPhDTg3_X1Jh4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-white/20 backdrop-blur-md text-white font-label-sm text-label-sm px-3 py-1 rounded-full border border-white/30 mb-3 inline-block">Urban</span>
+<h3 class="font-headline-md text-headline-md text-white font-bold drop-shadow-md">Dubai</h3>
+<p class="font-body-md text-body-md text-white/90 flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span> UAE
+                            </p>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="snap-start shrink-0 w-[280px] md:w-[360px] group cursor-pointer">
+<div class="relative h-[400px] rounded-2xl overflow-hidden mb-4 shadow-[0_4px_20px_rgba(20,25,54,0.08)]">
+<img alt="Maldives" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="An idyllic aerial shot of luxury overwater bungalows in the Maldives. The crystal-clear, shallow turquoise waters reveal coral reefs below, contrasting with the stark white sandy beaches. The scene is bathed in brilliant, high-key sunshine, projecting a sense of ultimate relaxation and premium exclusivity. The bright, airy composition perfectly matches a light-mode, high-end travel application aesthetic with soft, inviting colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdeGGwmkWzBI-Y6FG_WJNK4Ekm9iyiaVdQ6iAFcFX9nxe4kJ3GnPkCxp_Ntr0hNkr5NqShFuVhPEcUO6hgaDif72bCujV7uVXlFKalHFRtQ8TumRt7xaUFyeBquHlMTVpiuDnodjWg7bshbTQyj1aMlb_cykkU9pGtn5SL7MjynnaWQ3zeQaKHB4K3cWRIBBq6geCLnwfdC2o_Z4FC1yjd4eo9gIcqS706ZI65ATDDO1BWuoPIu6HVQrLtkzPHyt94PfyCFgrvUPk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6">
+<span class="bg-white/20 backdrop-blur-md text-white font-label-sm text-label-sm px-3 py-1 rounded-full border border-white/30 mb-3 inline-block">Relaxation</span>
+<h3 class="font-headline-md text-headline-md text-white font-bold drop-shadow-md">Maldives</h3>
+<p class="font-body-md text-body-md text-white/90 flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-sm" data-icon="location_on">location_on</span> South Asia
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Bento Grid Section -->
+<section class="max-w-container-max mx-auto px-4 md:px-gutter mb-section-gap pt-12 border-t border-outline-variant/20">
+<div class="text-center mb-12">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest mb-2 inline-block">Why Traveloop</span>
+<h2 class="font-headline-md text-display-lg-mobile text-on-surface mb-4">Precision Meets Inspiration</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">Elevate your travel planning with tools designed for both the dreamer and the organizer.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px]">
+<!-- Large Feature Cell -->
+<div class="md:col-span-2 md:row-span-2 bg-white rounded-3xl p-8 border border-outline-variant/30 shadow-[0_4px_24px_rgba(20,25,54,0.04)] relative overflow-hidden group">
+<div class="relative z-10 w-full md:w-1/2">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="map">map</span>
+</div>
+<h3 class="font-headline-md text-[28px] text-on-surface mb-3 leading-tight">Interactive Layered Itineraries</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">Visualize your entire journey on an interactive map. Stack activities, flights, and stays visually, ensuring a perfectly paced trip without the spreadsheet stress.</p>
+<a class="inline-flex items-center gap-2 font-button text-button text-primary hover:text-primary-container transition-colors font-semibold" href="#">
+                            See how it works <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Decorative Graphic -->
+<div class="absolute right-0 bottom-0 w-2/3 h-full hidden md:block translate-x-12 translate-y-12 opacity-80 group-hover:translate-x-8 group-hover:translate-y-8 transition-transform duration-700">
+<img alt="Map graphic" class="w-full h-full object-cover rounded-tl-3xl shadow-2xl border-l-4 border-t-4 border-white" data-alt="A detailed, abstract overhead view of a physical topographic map, featuring subtle contour lines, soft terrain shading in light creams and muted greens, and a faint compass rose. Resting on top of the map is a sleek, modern smartphone displaying a minimalist travel itinerary app interface with clean typography and subtle orange accents. The lighting is soft and even, suggesting a bright, organized planning space fitting a premium digital brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaHCqX_nfo46nMggIX2gh3kK8UWlZyeFA9Hxf2yAnP1ziShAru18aAIEzJtU0p26U9syZwg55-rA0EmBXGAIMZJT2fBokGXJ5rmPcqAQkue3hWpq_E9ObndtOl3lzlXhcV_1NGB4AMtQ4eDg4NNZrGBDyuguurmuAV4NYS0YlY7l73zH2mjgALlc6i6bZaDLn4nud5Pf472EbiMFKp4FbuKiCGEDBBZkAGdrJw_AcaRuNUB_cW9gloXD4IXBpdL4WLEcY9R4TKRmA"/>
+</div>
+</div>
+<!-- Small Feature Cell 1 -->
+<div class="bg-surface-container-low rounded-3xl p-6 border border-outline-variant/30 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+<div>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="payments">payments</span>
+</div>
+<h3 class="font-headline-md text-lg text-on-surface mb-2">Smart Budgeting</h3>
+<p class="font-body-md text-sm text-on-surface-variant">Real-time expense tracking with sleek analytics and category breakdowns.</p>
+</div>
+<div class="mt-4 h-16 w-full bg-gradient-to-r from-primary-fixed-dim/20 to-secondary-fixed/30 rounded-xl border border-white/50 flex items-end px-2 pb-2 gap-1">
+<div class="w-full bg-primary/40 rounded-t-sm h-[40%]"></div>
+<div class="w-full bg-primary/60 rounded-t-sm h-[70%]"></div>
+<div class="w-full bg-primary/80 rounded-t-sm h-[50%]"></div>
+<div class="w-full bg-primary rounded-t-sm h-[90%]"></div>
+<div class="w-full bg-primary/50 rounded-t-sm h-[60%]"></div>
+</div>
+</div>
+<!-- Small Feature Cell 2 -->
+<div class="bg-white rounded-3xl p-6 border border-outline-variant/30 shadow-[0_4px_24px_rgba(20,25,54,0.04)] flex flex-col justify-between group hover:border-primary/30 transition-colors">
+<div>
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="font-headline-md text-lg text-on-surface mb-2">AI Suggestions</h3>
+<p class="font-body-md text-sm text-on-surface-variant">Hidden gems and local dining spots curated automatically based on your style.</p>
+</div>
+<div class="flex -space-x-3 mt-4">
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="A close-up, high-quality portrait of a young woman with natural makeup, smiling softly. The lighting is soft and bright, emphasizing clarity and approachability. The background is a blurred, light neutral tone, keeping focus entirely on the subject. This image serves as a clean, premium user avatar fitting an elegant UI design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBP9W5SU2sUv00OLjfcUhRucxmHldhG7hAo3Z89B0-6yDKH_0R0_7Z9S7Hio8nvYcdjZCNO2rOuZq3ZYTysjhc2X7n1xFNNLj0J9TA7VWVKH-yu0rctxgXL89pn8GWCvmQiJILcd7ukml8MJjfqHsunLymi2fMeBnJ5-pSsYOPuaHxaQBXeVVwwUImXPBHkVmw7nXNPfqWanDxuvH_vz7qOzznars_86VwSFNk3m_JhzWUNPApQucp-cCoPDqfgIAdhFLW_jqiEIFo"/>
+<img alt="User" class="w-10 h-10 rounded-full border-2 border-white object-cover" data-alt="A portrait of a man looking off-camera with a thoughtful expression. He has short hair and a neat beard. The lighting is natural and bright, creating a clean, professional aesthetic. The background is completely out of focus and light-colored, making this an ideal, high-end profile picture for a modern application interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIiVoWtOr789JfxRvS-vjqiZ8CLmM7EvLbSomLTRE7OdFweqZuZyI0NQB_GBdsVWCitBfJTOYFI8IlSheurENzObzqReuX5ES55rpGZWCqHIq-RsZ9UitrPqyYwZFGh7Lo3VGVT_9Njaal2-idn_eMH18dLsKFceORVAK2ymIlLJ1o8EjyQn5kWJzYsBFuSqNpUZEFWMLvpYToqnQfDryyLYh9fiHGGmDcxSPqjaJCMKBuYJvzQ8zeCIjPB7jinHdfwJBzDag5GfI"/>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-surface-container flex items-center justify-center font-label-sm text-[10px] text-on-surface-variant z-10">+12k</div>
+</div>
+</div>
+<!-- Wide Horizontal Feature -->
+<div class="md:col-span-3 bg-gradient-to-r from-on-secondary-fixed to-inverse-surface rounded-3xl p-8 shadow-xl flex flex-col md:flex-row items-center justify-between overflow-hidden relative">
+<!-- Decorative Map Pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="relative z-10 md:w-1/2 mb-6 md:mb-0">
+<span class="bg-white/10 text-white font-label-sm text-label-sm px-3 py-1 rounded-full border border-white/20 mb-4 inline-block">Pro Feature</span>
+<h3 class="font-headline-md text-display-lg-mobile text-white mb-2">Collaborate in Real-Time</h3>
+<p class="font-body-md text-white/80 max-w-md">Plan group trips effortlessly. Share boards, vote on activities, and split costs instantly with the Traveloop Squad tool.</p>
+</div>
+<div class="relative z-10 flex gap-4 md:w-1/2 justify-end">
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 w-48 shadow-2xl rotate-[-6deg] hover:rotate-0 transition-transform">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="restaurant">restaurant</span>
+<span class="text-white font-medium text-sm">Dinner at Nobu</span>
+</div>
+<div class="flex justify-between items-center text-xs text-white/70">
+<span>8:00 PM</span>
+<span class="bg-primary px-2 py-0.5 rounded-full text-white text-[10px]">Voted Yes</span>
+</div>
+</div>
+<div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 w-48 shadow-2xl rotate-[6deg] hover:rotate-0 transition-transform mt-8">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary-fixed-dim" data-icon="surfing">surfing</span>
+<span class="text-white font-medium text-sm">Morning Surf</span>
+</div>
+<div class="flex justify-between items-center text-xs text-white/70">
+<span>6:30 AM</span>
+<div class="flex -space-x-2">
+<div class="w-5 h-5 rounded-full bg-surface-container border border-white/50"></div>
+<div class="w-5 h-5 rounded-full bg-primary/50 border border-white/50"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Call to Action -->
+<section class="max-w-4xl mx-auto px-4 md:px-gutter text-center py-16">
+<h2 class="font-display-lg text-[40px] text-on-background mb-4">Ready to start exploring?</h2>
+<p class="font-body-lg text-on-surface-variant mb-8 max-w-xl mx-auto">Join thousands of travelers who have elevated their journeys with Traveloop's precision planning tools.</p>
+<button class="font-button text-button bg-on-secondary-fixed text-white px-8 py-4 rounded-full shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center gap-2 mx-auto">
+                Plan Your Journey <span class="material-symbols-outlined" data-icon="flight_takeoff">flight_takeoff</span>
+</button>
+</section>
+</main>
+<!-- Footer -->
+<footer aria-label="Site Footer" class="bg-surface-container-lowest border-t border-outline-variant/20 w-full">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter py-12 max-w-container-max mx-auto gap-6 md:gap-0">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface text-2xl" data-icon="travel_explore" data-weight="fill" style="font-variation-settings: 'FILL' 1;">travel_explore</span>
+<span class="font-display-lg text-headline-md font-bold text-on-surface">Traveloop</span>
+</div>
+<div class="flex flex-wrap justify-center gap-6 md:gap-8 font-label-sm text-label-sm">
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Cookie Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Support</a>
+</div>
+<div class="font-body-md text-sm text-on-surface-variant/70">
+                © 2024 Traveloop Inc. All rights reserved.
+            </div>
+</div>
+</footer>
+</body></html>

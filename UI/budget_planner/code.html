@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Traveloop - Budget Planner</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1f",
+                    "primary": "#ab3500",
+                    "surface-container-high": "#e7e8ec",
+                    "surface": "#f8f9fd",
+                    "on-secondary-fixed": "#141936",
+                    "secondary-fixed-dim": "#c0c4ea",
+                    "primary-fixed-dim": "#ffb59d",
+                    "surface-container": "#edeef2",
+                    "outline-variant": "#e1bfb5",
+                    "on-error-container": "#93000a",
+                    "inverse-surface": "#2e3134",
+                    "surface-variant": "#e1e2e6",
+                    "on-tertiary-container": "#53240a",
+                    "on-tertiary-fixed-variant": "#6d391d",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#ff6b35",
+                    "on-surface-variant": "#594139",
+                    "inverse-primary": "#ffb59d",
+                    "surface-bright": "#f8f9fd",
+                    "surface-container-low": "#f2f3f7",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#ffb693",
+                    "tertiary": "#895032",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-highest": "#e1e2e6",
+                    "on-error": "#ffffff",
+                    "primary-fixed": "#ffdbd0",
+                    "on-primary-container": "#5f1900",
+                    "tertiary-container": "#ce8968",
+                    "surface-dim": "#d9dade",
+                    "on-primary-fixed-variant": "#832600",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#d4d8fe",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#390c00",
+                    "on-surface": "#191c1f",
+                    "surface-tint": "#ab3500",
+                    "on-secondary-container": "#585d7e",
+                    "secondary-fixed": "#dee0ff",
+                    "background": "#f8f9fd",
+                    "outline": "#8d7168",
+                    "on-secondary-fixed-variant": "#404564",
+                    "secondary": "#585c7d",
+                    "inverse-on-surface": "#eff1f5"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1.25rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "section-gap": "48px",
+                    "container-max": "1440px",
+                    "card-padding": "24px",
+                    "sidebar-width": "280px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "display-lg": ["Plus Jakarta Sans", "sans-serif"],
+                    "button": ["Inter", "sans-serif"],
+                    "label-sm": ["JetBrains Mono", "monospace"],
+                    "display-lg-mobile": ["Plus Jakarta Sans", "sans-serif"],
+                    "body-lg": ["Inter", "sans-serif"],
+                    "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+                    "body-md": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "display-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "button": ["14px", {"lineHeight": "1.0", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "display-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        /* Custom subtle shadow for level 1 cards */
+        .ambient-shadow {
+            box-shadow: 0 4px 20px -2px rgba(20, 25, 54, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex selection:bg-primary/20 selection:text-primary">
+<!-- Shared Component: SideNavBar -->
+<!-- Applying structural and style commands from JSON -->
+<aside class="hidden md:flex fixed left-0 top-0 h-screen w-sidebar-width bg-on-secondary-fixed shadow-2xl flex-col py-6 gap-2 z-50">
+<!-- Header / Logo -->
+<div class="px-6 mb-8 flex flex-col gap-1">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-primary icon-fill">flight_takeoff</span>
+</div>
+<div>
+<h1 class="font-display-lg text-headline-md font-bold text-primary-fixed-dim">Traveloop</h1>
+<span class="font-label-sm text-label-sm text-secondary-fixed-dim/70 uppercase tracking-wider">Premium Planner</span>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary hover:bg-primary-container text-on-primary font-button text-button py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 shadow-md">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Trip
+            </button>
+</div>
+<!-- Navigation Links -->
+<nav class="flex-1 flex flex-col gap-1 pr-4">
+<!-- Dashboard (Inactive) -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-button text-button">Dashboard</span>
+</a>
+<!-- Itinerary (Inactive) -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-button text-button">Itinerary</span>
+</a>
+<!-- Budget (Active State - Exact Match) -->
+<a class="flex items-center gap-3 bg-primary/10 text-primary-fixed-dim border-l-4 border-primary px-4 py-3 rounded-r-xl scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined icon-fill">payments</span>
+<span class="font-button text-button">Budget</span>
+</a>
+<!-- Packing List (Inactive) -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-button text-button">Packing List</span>
+</a>
+<!-- Trips (Inactive) -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">explore</span>
+<span class="font-button text-button">Trips</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-button text-button">Settings</span>
+</a>
+</nav>
+<!-- Footer Links -->
+<div class="mt-auto flex flex-col gap-1 pr-4 mb-2">
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-button text-button">Help Center</span>
+</a>
+<a class="flex items-center gap-3 text-secondary-fixed-dim/70 px-4 py-3 hover:text-secondary-fixed-dim hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-button text-button">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-sidebar-width min-h-screen pb-12">
+<!-- Contextual Header -->
+<header class="sticky top-0 z-40 bg-surface/80 backdrop-blur-md border-b border-surface-variant/50 px-gutter md:px-section-gap py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider bg-primary/10 px-2 py-0.5 rounded">Tokyo, Japan</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Oct 12 - Oct 24</span>
+</div>
+<h2 class="font-display-lg text-display-lg-mobile md:text-[36px] text-on-surface">Budget Overview</h2>
+</div>
+<div class="flex items-center gap-3">
+<!-- Currency Selector -->
+<button class="flex items-center gap-2 bg-on-primary border border-surface-variant rounded-full px-4 py-2 hover:bg-surface-container transition-colors ambient-shadow">
+<span class="font-button text-button text-on-surface">USD ($)</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">expand_more</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-on-primary border border-surface-variant flex items-center justify-center hover:bg-surface-container transition-colors ambient-shadow text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</header>
+<!-- Dashboard Layout -->
+<div class="px-gutter md:px-section-gap py-8 max-w-container-max mx-auto">
+<!-- Top Bento Grid: High-level overview & Chart -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+<!-- Main Donut Chart Card (Spans 2 columns) -->
+<div class="lg:col-span-2 bg-on-primary rounded-2xl border border-surface-variant ambient-shadow p-card-padding flex flex-col md:flex-row gap-8 items-center justify-between">
+<div class="flex-1">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Expense Breakdown</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">You have utilized 68% of your total budget. Accommodation is your highest category.</p>
+<!-- Legend -->
+<div class="grid grid-cols-2 gap-4">
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Stay</p>
+<p class="font-button text-button text-on-surface">$1,450</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Flights</p>
+<p class="font-button text-button text-on-surface">$850</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-tertiary-container"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Food</p>
+<p class="font-button text-button text-on-surface">$620</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-3 h-3 rounded-full bg-surface-variant border border-outline-variant/50"></div>
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant uppercase">Fun</p>
+<p class="font-button text-button text-on-surface">$340</p>
+</div>
+</div>
+</div>
+</div>
+<!-- CSS-based Donut Chart -->
+<div class="relative w-48 h-48 md:w-56 md:h-56 shrink-0 rounded-full flex items-center justify-center" style="background: conic-gradient(theme('colors.primary') 0% 45%, theme('colors.tertiary') 45% 70%, theme('colors.tertiary-container') 70% 90%, theme('colors.surface-variant') 90% 100%);">
+<!-- Inner cutout to make it a donut -->
+<div class="absolute w-32 h-32 md:w-40 md:h-40 bg-on-primary rounded-full flex flex-col items-center justify-center shadow-inner">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest mb-1">Total Spent</span>
+<span class="font-display-lg text-[28px] md:text-[32px] text-on-surface leading-none">$3,260</span>
+</div>
+</div>
+</div>
+<!-- Budget Summary Card -->
+<div class="bg-on-primary rounded-2xl border border-surface-variant ambient-shadow p-card-padding flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-[10px] uppercase tracking-wider">12 Days Left</span>
+</div>
+<h3 class="font-label-sm text-label-sm text-on-surface-variant uppercase mb-1">Total Budget</h3>
+<p class="font-display-lg text-[36px] text-on-surface mb-6">$4,800</p>
+</div>
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span class="font-button text-button text-on-surface">68% Utilized</span>
+<span class="font-button text-button text-on-surface-variant">$1,540 Left</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[68%]"></div>
+</div>
+<div class="mt-4 flex gap-2">
+<button class="flex-1 py-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors font-button text-button text-on-surface border border-surface-variant">Edit</button>
+<button class="flex-1 py-2 rounded-lg bg-on-surface hover:bg-on-surface/90 transition-colors font-button text-button text-on-primary shadow-sm">Add Fund</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Category Detail Cards -->
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4 mt-8">Categories</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+<!-- Category: Stay -->
+<div class="bg-on-primary rounded-xl border border-surface-variant ambient-shadow p-5 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">bed</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant bg-surface px-2 py-1 rounded border border-surface-variant">90%</span>
+</div>
+<h4 class="font-button text-button text-on-surface mb-1">Stay</h4>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="font-headline-md text-[20px] text-on-surface">$1,450</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">/ $1,600</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[90%]"></div>
+</div>
+</div>
+<!-- Category: Flights -->
+<div class="bg-on-primary rounded-xl border border-surface-variant ambient-shadow p-5 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center mb-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">flight</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant bg-surface px-2 py-1 rounded border border-surface-variant">100%</span>
+</div>
+<h4 class="font-button text-button text-on-surface mb-1">Flights</h4>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="font-headline-md text-[20px] text-on-surface">$850</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">/ $850</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary rounded-full w-[100%]"></div>
+</div>
+</div>
+<!-- Category: Food -->
+<div class="bg-on-primary rounded-xl border border-surface-variant ambient-shadow p-5 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center mb-4">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container/20 text-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">restaurant</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant bg-surface px-2 py-1 rounded border border-surface-variant">62%</span>
+</div>
+<h4 class="font-button text-button text-on-surface mb-1">Food</h4>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="font-headline-md text-[20px] text-on-surface">$620</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">/ $1,000</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full w-[62%]"></div>
+</div>
+</div>
+<!-- Category: Fun -->
+<div class="bg-on-primary rounded-xl border border-surface-variant ambient-shadow p-5 hover:-translate-y-1 transition-transform duration-300">
+<div class="flex justify-between items-center mb-4">
+<div class="w-10 h-10 rounded-lg bg-outline/10 text-outline flex items-center justify-center">
+<span class="material-symbols-outlined icon-fill">attractions</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant bg-surface px-2 py-1 rounded border border-surface-variant">25%</span>
+</div>
+<h4 class="font-button text-button text-on-surface mb-1">Fun &amp; Misc</h4>
+<div class="flex items-baseline gap-1 mb-3">
+<span class="font-headline-md text-[20px] text-on-surface">$340</span>
+<span class="font-label-sm text-[11px] text-on-surface-variant">/ $1,350</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-variant overflow-hidden">
+<div class="h-full bg-outline rounded-full w-[25%]"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
