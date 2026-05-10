@@ -1,5 +1,11 @@
 import { createClient } from "./server";
 
+/**
+ * SERVER-SIDE QUERIES
+ * These functions must only be called from Server Components, 
+ * Server Actions, or Route Handlers.
+ */
+
 export async function getProfile(userId: string) {
   const supabase = await createClient();
   const { data, error } = await supabase

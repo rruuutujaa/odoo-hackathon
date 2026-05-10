@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Search as SearchIcon, Filter, MapPin, Star, ArrowRight, Loader2 } from "lucide-react";
-import { searchActivities } from "@/lib/supabase/queries";
+import { createClient } from "@/lib/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,6 +15,7 @@ export default function SearchPage() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const supabase = createClient();
 
   const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -23,7 +24,12 @@ export default function SearchPage() {
     setLoading(true);
     setSearched(true);
     try {
-      const data = await searchActivities(query);
+      const { data, error } = await supabase
+        .from("activities")
+        .select("*")
+        .ilike("name", `%${query}%`);
+      
+      if (error) throw error;
       setResults(data || []);
     } catch (error) {
       console.error(error);

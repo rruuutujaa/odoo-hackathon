@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { getProfile, updateProfile, getTrips } from "@/lib/supabase/queries";
 import { uploadAvatar, getPublicUrl } from "@/lib/supabase/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Loader2, Camera, MapPin, Mail, Phone, Globe, Edit2, Save, X } from "lucide-react";
 
@@ -30,10 +29,10 @@ export default function ProfilePage() {
     setLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
     if (user) {
-      const p = await getProfile(user.id);
-      const t = await getTrips(user.id);
+      const { data: p } = await supabase.from("profiles").select("*").eq("id", user.id).single();
+      const { data: t } = await supabase.from("trips").select("*").eq("user_id", user.id);
       setProfile(p);
-      setTrips(t);
+      setTrips(t || []);
       setFormData(p);
     }
     setLoading(false);
@@ -47,7 +46,7 @@ export default function ProfilePage() {
         const path = await uploadAvatar(file, profile.id);
         const url = getPublicUrl("avatars", path);
         
-        await updateProfile(profile.id, { photo_url: url });
+        await supabase.from("profiles").update({ photo_url: url }).eq("id", profile.id);
         setProfile({ ...profile, photo_url: url });
       } catch (error) {
         console.error(error);
@@ -60,14 +59,14 @@ export default function ProfilePage() {
   const handleSave = async () => {
     setSaving(true);
     try {
-      await updateProfile(profile.id, {
+      await supabase.from("profiles").update({
         first_name: formData.first_name,
         last_name: formData.last_name,
         phone: formData.phone,
         city: formData.city,
         country: formData.country,
         bio: formData.bio
-      });
+      }).eq("id", profile.id);
       setProfile(formData);
       setEditing(false);
     } catch (error) {
@@ -98,7 +97,7 @@ export default function ProfilePage() {
             <div className="relative group">
               <Avatar className="h-32 w-32 border-4 border-background shadow-xl">
                 <AvatarImage src={profile.photo_url || ""} />
-                <AvatarFallback className="text-3xl bg-muted">{profile.first_name[0]}</AvatarFallback>
+                <AvatarFallback className="text-3xl bg-muted">{profile.first_name?.[0]}</AvatarFallback>
               </Avatar>
               <label className="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full cursor-pointer shadow-lg hover:scale-110 transition-transform">
                 {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Camera className="h-4 w-4" />}

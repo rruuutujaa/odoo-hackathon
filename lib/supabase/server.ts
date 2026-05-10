@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
+// Only for use in Server Components and Server Actions
 export async function createClient() {
   const cookieStore = await cookies()
 
@@ -18,7 +19,7 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             )
           } catch {
-            // This can be ignored if you have middleware refreshing user sessions.
+            // Can be ignored if you have middleware refreshing sessions
           }
         },
       },
