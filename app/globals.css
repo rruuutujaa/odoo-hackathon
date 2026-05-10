@@ -4,24 +4,27 @@
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   
-  --radius-luxury: 0.5rem; /* Shaper, more intentional corners */
-  --radius-editorial: 0rem;
-  --radius-widget: 0.75rem;
+  --radius-luxury: 0rem; 
+  --radius-widget: 0rem;
 
-  --color-brand-orange: #FF5C00; /* More vibrant, high-fashion orange */
+  --color-brand-orange: #FF5C00;
   --color-brand-obsidian: #0A0A0A;
 }
 
 @layer base {
   :root {
     --background: 0 0% 100%; 
-    --foreground: 0 0% 4%;    
+    --foreground: 0 0% 0%;    
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
     --primary: 22 100% 50%;   
     --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 4%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --secondary: 0 0% 98%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 40%;
     --accent: 22 100% 50%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
@@ -32,14 +35,16 @@
   }
 
   .dark {
-    --background: 0 0% 4%;     
-    --foreground: 0 0% 98%;  
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 98%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 55%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
+    --background: 0 0% 0%;     
+    --foreground: 0 0% 100%;  
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 5%;
+    --popover-foreground: 0 0% 100%;
+    --muted: 0 0% 8%;
+    --muted-foreground: 0 0% 60%;
+    --border: 0 0% 12%;
+    --input: 0 0% 12%;
   }
 }
 
@@ -49,30 +54,19 @@
   }
   
   .luxury-grid {
-    background-size: 40px 40px;
-    background-image: linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    background-image: linear-gradient(to right, hsla(var(--foreground), 0.03) 1px, transparent 1px),
+                      linear-gradient(to bottom, hsla(var(--foreground), 0.03) 1px, transparent 1px);
   }
 
-  .dark .luxury-grid {
-    background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  .luxury-shadow {
+    box-shadow: 0 32px 64px -12px rgba(0, 0, 0, 0.2);
   }
 
   .text-premium {
     letter-spacing: -0.02em;
-    line-height: 1.2;
+    line-height: 1.3;
   }
-  
-  .text-title {
-    letter-spacing: -0.05em;
-    line-height: 1;
-  }
-}
-
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
 }
 
 body {
@@ -80,56 +74,31 @@ body {
   color: hsl(var(--foreground));
   font-family: var(--font-body), sans-serif;
   -webkit-font-smoothing: antialiased;
-  position: relative;
   min-height: 100vh;
-}
-
-/* Removal of AI-style gradients and blurs */
-body::before {
-  display: none;
-}
-
-/* Signature Luxury Cursor */
-#luxury-cursor {
-  width: 32px;
-  height: 32px;
-  border: 1.5px solid #FF5C00;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: opacity 0.3s ease;
-  will-change: transform;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 400;
+  letter-spacing: -0.04em;
 }
 
-/* Custom Scrollbar - Ultra Thin */
+/* Modal Fix: Ensure Backdrop follows theme */
+[data-radix-portal] > div:first-child {
+  background-color: hsla(var(--background), 0.8) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
+  width: 2px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.1);
+  background: hsla(var(--foreground), 0.1);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-/* Signature Motion: Elegant, non-bounce */
-.page-transition {
-  animation: elegantFade 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes elegantFade {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
+::-webkit-scrollbar-thumb:hover {
+  background: #FF5C00;
 }

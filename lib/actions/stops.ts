@@ -7,6 +7,13 @@ import { stopSchema } from "@/lib/schemas/trips";
 export async function getStops(tripId: string) {
   return await prisma.tripStop.findMany({
     where: { tripId },
+    include: {
+      activities: {
+        include: {
+          activity: true
+        }
+      }
+    },
     orderBy: { position: "asc" }
   });
 }

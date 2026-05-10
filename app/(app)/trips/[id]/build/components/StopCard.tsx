@@ -22,6 +22,7 @@ import { deleteStop } from "@/lib/actions/stops";
 import { StopForm } from "./StopForm";
 import { ActivityForm } from "./ActivityForm";
 import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 interface StopCardProps {
   stop: any;
@@ -177,6 +178,3 @@ export function StopCard({ stop, index, onUpdate }: StopCardProps) {
     </Card>
   );
 }
-
-// Helper for cn (already exists in lib/utils.ts, but standard practice to import)
-import { cn } from "@/lib/utils";

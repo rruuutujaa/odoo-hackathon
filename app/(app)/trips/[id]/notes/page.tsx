@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 export default function NotesPage() {
   const params = useParams();
@@ -33,6 +34,9 @@ export default function NotesPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [dayNumber, setDayNumber] = useState<number | undefined>(undefined);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const fetchNotes = async (filter?: any) => {
     setLoading(true);
@@ -52,8 +56,17 @@ export default function NotesPage() {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title.trim() || !content.trim()) return;
+    
+    if (!title.trim()) {
+      toast({ variant: "destructive", title: "Missing Title", description: "Please enter a title for your note." });
+      return;
+    }
+    if (!content.trim()) {
+      toast({ variant: "destructive", title: "Empty Content", description: "The note content cannot be empty." });
+      return;
+    }
 
+    setIsSubmitting(true);
     try {
       await addNote({
         tripId,
@@ -66,8 +79,12 @@ export default function NotesPage() {
       setDayNumber(undefined);
       setShowAdd(false);
       fetchNotes();
+      toast({ title: "Note Saved", description: "Your memory has been logged successfully." });
     } catch (e) {
       console.error(e);
+      toast({ variant: "destructive", title: "Save Failed", description: "An error occurred while saving your note." });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -127,7 +144,10 @@ export default function NotesPage() {
             />
             <div className="flex justify-end gap-3">
               <Button type="button" variant="ghost" onClick={() => setShowAdd(false)} className="rounded-xl font-bold">Cancel</Button>
-              <Button type="submit" className="bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-xl font-bold px-8 h-11 shadow-lg shadow-[#FF6B35]/20">Save Entry</Button>
+              <Button type="submit" disabled={isSubmitting} className="bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-xl font-bold px-8 h-11 shadow-lg shadow-[#FF6B35]/20">
+                {isSubmitting ? <Loader2 className="animate-spin mr-2" size={16} /> : null}
+                Save Entry
+              </Button>
             </div>
           </form>
         </Card>
