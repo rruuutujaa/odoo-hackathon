@@ -118,33 +118,33 @@ export default function RegisterPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-12">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-              <Label className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Forename</Label>
-              <Input {...register("firstName")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" placeholder="PARTH" />
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+              <Label className="text-[#FF5C00] text-[9px] font-black uppercase tracking-[0.4em] mb-1 block">Forename</Label>
+              <Input {...register("firstName")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" placeholder="PARTH" />
               {errors.firstName && <p className="text-[9px] font-bold text-[#FF5C00] mt-2 uppercase">{errors.firstName.message as string}</p>}
             </div>
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-              <Label className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Surname</Label>
-              <Input {...register("lastName")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" placeholder="UPADHYE" />
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+              <Label className="text-[#FF5C00] text-[9px] font-black uppercase tracking-[0.4em] mb-1 block">Surname</Label>
+              <Input {...register("lastName")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" placeholder="UPADHYE" />
               {errors.lastName && <p className="text-[9px] font-bold text-[#FF5C00] mt-2 uppercase">{errors.lastName.message as string}</p>}
             </div>
           </div>
 
-          <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-            <Label className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Email Communication</Label>
-            <Input {...register("email")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" placeholder="AGENT@TRAVELOOP.APP" />
+          <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+            <Label className="text-[#FF5C00] text-[9px] font-black uppercase tracking-[0.4em] mb-1 block">Email Communication</Label>
+            <Input {...register("email")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" placeholder="AGENT@TRAVELOOP.APP" />
             {errors.email && <p className="text-[9px] font-bold text-[#FF5C00] mt-2 uppercase">{errors.email.message as string}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-              <Label className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Secret Phrase</Label>
-              <Input type="password" {...register("password")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" placeholder="••••••••" />
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+              <Label className="text-[#FF5C00] text-[9px] font-black uppercase tracking-[0.4em] mb-1 block">Secret Phrase</Label>
+              <Input type="password" {...register("password")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" placeholder="••••••••" />
               {errors.password && <p className="text-[9px] font-bold text-[#FF5C00] mt-2 uppercase">{errors.password.message as string}</p>}
             </div>
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-              <Label className="text-white/20 text-[9px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Verify Phrase</Label>
-              <Input type="password" {...register("confirmPassword")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" placeholder="••••••••" />
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+              <Label className="text-[#FF5C00] text-[9px] font-black uppercase tracking-[0.4em] mb-1 block">Verify Phrase</Label>
+              <Input type="password" {...register("confirmPassword")} className="bg-transparent border-none h-10 text-lg font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" placeholder="••••••••" />
               {errors.confirmPassword && <p className="text-[9px] font-bold text-[#FF5C00] mt-2 uppercase">{errors.confirmPassword.message as string}</p>}
             </div>
           </div>

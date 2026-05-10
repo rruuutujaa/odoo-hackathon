@@ -111,25 +111,25 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
           <div className="space-y-8">
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
-              <Label className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Email Identity</Label>
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
+              <Label className="text-[#FF5C00] text-[10px] font-black uppercase tracking-[0.4em] mb-2 block">Email Identity</Label>
               <Input 
                 {...register("email")} 
-                className="bg-transparent border-none h-12 text-xl font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" 
+                className="bg-transparent border-none h-12 text-xl font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" 
                 placeholder="agent@traveloop.app" 
               />
               {errors.email && <p className="text-[10px] font-bold text-[#FF5C00] mt-2 uppercase tracking-widest">{errors.email.message as string}</p>}
             </div>
 
-            <div className="group border-b border-white/10 focus-within:border-[#FF5C00] transition-colors pb-2">
+            <div className="group border-b border-white/20 focus-within:border-[#FF5C00] transition-colors pb-2">
               <div className="flex justify-between items-center mb-1">
-                <Label className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] group-focus-within:text-[#FF5C00] transition-colors">Security Key</Label>
-                <Link href="#" className="text-[9px] font-black uppercase tracking-widest text-white/20 hover:text-[#FF5C00]">Recover</Link>
+                <Label className="text-[#FF5C00] text-[10px] font-black uppercase tracking-[0.4em]">Security Key</Label>
+                <Link href="#" className="text-[9px] font-black uppercase tracking-widest text-white/40 hover:text-white transition-colors">Recover</Link>
               </div>
               <Input 
                 type="password" 
                 {...register("password")} 
-                className="bg-transparent border-none h-12 text-xl font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/5" 
+                className="bg-transparent border-none h-12 text-xl font-display text-white p-0 rounded-none focus-visible:ring-0 placeholder:text-white/20" 
                 placeholder="••••••••" 
               />
               {errors.password && <p className="text-[10px] font-bold text-[#FF5C00] mt-2 uppercase tracking-widest">{errors.password.message as string}</p>}
