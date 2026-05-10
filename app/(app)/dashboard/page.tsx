@@ -1,110 +1,180 @@
 import { Suspense } from "react";
 import Link from "next/link";
-import { Plus, Search as SearchIcon, MapPin, TrendingUp, Calendar } from "lucide-react";
-import { createClient } from "@/lib/supabase/server";
-import { getProfile, getTrips } from "@/lib/supabase/queries";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { auth } from "@/lib/auth";
+import { getTrips, getTripStats } from "@/lib/actions/trips";
 import { TripCard } from "@/components/trips/TripCard";
 import { TripSkeleton } from "@/components/trips/TripSkeleton";
-import { Card } from "@/components/ui/card";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { 
+  Plane, 
+  LayoutDashboard, 
+  Clock, 
+  CalendarCheck, 
+  CheckCircle2, 
+  PlusCircle,
+  TrendingUp
+} from "lucide-react";
 
-async function DashboardContent() {
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return null;
+async function DashboardStats({ userId }: { userId: string }) {
+  const stats = await getTripStats(userId);
 
-  const profile = await getProfile(user.id);
-  const trips = await getTrips(user.id);
-  const previousTrips = trips.filter(t => t.status === 'completed');
+  const statItems = [
+    { label: "Total Trips", value: stats.total, icon: LayoutDashboard, color: "text-blue-500", bg: "bg-blue-50" },
+    { label: "Ongoing", value: stats.ongoing, icon: Clock, color: "text-orange-500", bg: "bg-orange-50" },
+    { label: "Upcoming", value: stats.upcoming, icon: Plane, color: "text-indigo-500", bg: "bg-indigo-50" },
+    { label: "Completed", value: stats.completed, icon: CheckCircle2, color: "text-green-500", bg: "bg-green-50" },
+  ];
 
   return (
-    <div className="space-y-10">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-[#1A1F3C]">Hey {profile.first_name}!</h1>
-          <p className="text-muted-foreground mt-1">Ready for your next adventure?</p>
-        </div>
-        <Button asChild className="bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-[12px] px-6 h-12">
-          <Link href="/trips/new">
-            <Plus className="mr-2 h-5 w-5" />
-            Plan a Trip
-          </Link>
-        </Button>
-      </div>
-
-      {/* Search Bar */}
-      <div className="relative">
-        <SearchIcon className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-        <Input 
-          placeholder="Search your trips, destinations..." 
-          className="pl-12 h-14 bg-card shadow-sm border-none rounded-[16px] text-lg focus-visible:ring-1"
-        />
-      </div>
-
-      {/* Regional Selections (Static) */}
-      <section className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-[#1A1F3C] flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            Top Regional Selections
-          </h2>
-          <Button variant="link" className="text-primary font-semibold">View all</Button>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[
-            { name: "Kyoto, Japan", img: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=400&h=250&fit=crop" },
-            { name: "Paris, France", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=400&h=250&fit=crop" },
-            { name: "Bali, Indonesia", img: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=400&h=250&fit=crop" },
-            { name: "Rome, Italy", img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?q=80&w=400&h=250&fit=crop" }
-          ].map((city) => (
-            <div key={city.name} className="group relative aspect-[4/3] rounded-[16px] overflow-hidden cursor-pointer shadow-sm">
-              <img src={city.img} alt={city.name} className="h-full w-full object-cover transition-transform group-hover:scale-110" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-4">
-                <p className="text-white font-bold">{city.name}</p>
-              </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {statItems.map((item) => (
+        <Card key={item.label} className="border-none shadow-sm rounded-xl overflow-hidden">
+          <CardContent className="p-6 flex items-center gap-4">
+            <div className={`p-3 rounded-lg ${item.bg}`}>
+              <item.icon className={`h-6 w-6 ${item.color}`} />
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Previous Trips */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-bold text-[#1A1F3C] flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-primary" />
-          Previous Trips
-        </h2>
-        {previousTrips.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {previousTrips.map((trip) => (
-              <TripCard key={trip.id} trip={trip} />
-            ))}
-          </div>
-        ) : (
-          <Card className="p-8 text-center bg-muted/30 border-dashed">
-            <p className="text-muted-foreground">You haven&apos;t completed any trips yet.</p>
-          </Card>
-        )}
-      </section>
+            <div>
+              <p className="text-sm font-medium text-muted-foreground uppercase tracking-wider">{item.label}</p>
+              <h3 className="text-2xl font-bold text-[#1A1F3C]">{item.value}</h3>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }
 
-export default function DashboardPage() {
+async function RecentTrips({ userId }: { userId: string }) {
+  const trips = await getTrips(userId);
+  const recentTrips = trips.slice(0, 3);
+
+  if (trips.length === 0) {
+    return (
+      <EmptyState
+        title="No trips planned yet"
+        description="Start your journey by creating your first travel itinerary."
+        ctaLabel="Plan a Trip"
+        ctaHref="/trips/new"
+        icon={PlusCircle}
+      />
+    );
+  }
+
   return (
-    <Suspense fallback={
-      <div className="space-y-10 animate-pulse">
-        <div className="h-20 w-1/3 bg-muted rounded-lg" />
-        <div className="h-14 w-full bg-muted rounded-2xl" />
-        <div className="grid grid-cols-3 gap-6 pt-10">
-          <TripSkeleton />
-          <TripSkeleton />
-          <TripSkeleton />
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {recentTrips.map((trip) => (
+        <TripCard 
+          key={trip.id} 
+          trip={{
+            ...trip,
+            // Map Prisma fields to TripCard expectations if they differ
+            // @ts-ignore
+            start_date: trip.startDate,
+            // @ts-ignore
+            end_date: trip.endDate,
+            // @ts-ignore
+            status: trip.status.toLowerCase(),
+            trip_stops: [{ count: trip.stops.length }]
+          }} 
+        />
+      ))}
+    </div>
+  );
+}
+
+export default async function DashboardPage() {
+  const session = await auth();
+  if (!session?.user) return null;
+
+  const firstName = session.user.firstName || "Traveler";
+
+  return (
+    <div className="space-y-8 animate-in fade-in duration-500">
+      {/* Welcome Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black text-[#1A1F3C]">Hey {firstName}! 👋</h1>
+          <p className="text-muted-foreground mt-1 font-medium">Welcome back to your travel loop. Where to next?</p>
+        </div>
+        <Button asChild className="bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-xl h-12 px-6 shadow-lg shadow-[#FF6B35]/20 font-bold transition-all hover:scale-105">
+          <Link href="/trips/new">
+            <PlusCircle className="mr-2 h-5 w-5" />
+            Plan a New Trip
+          </Link>
+        </Button>
+      </div>
+
+      {/* Stats Section */}
+      <Suspense fallback={
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map(i => <div key={i} className="h-24 bg-muted rounded-xl animate-pulse" />)}
+        </div>
+      }>
+        <DashboardStats userId={session.user.id} />
+      </Suspense>
+
+      {/* Main Content Area */}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        {/* Left Column: Recent Trips */}
+        <div className="xl:col-span-2 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-[#1A1F3C] flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-[#FF6B35]" />
+              Recent Adventures
+            </h2>
+            <Button variant="ghost" asChild className="text-[#FF6B35] font-bold hover:bg-[#FF6B35]/5">
+              <Link href="/trips">View All Trips</Link>
+            </Button>
+          </div>
+          
+          <Suspense fallback={
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <TripSkeleton />
+              <TripSkeleton />
+              <TripSkeleton />
+            </div>
+          }>
+            <RecentTrips userId={session.user.id} />
+          </Suspense>
+        </div>
+
+        {/* Right Column: Quick Inspiration (Static for demo) */}
+        <div className="space-y-6">
+          <h2 className="text-xl font-bold text-[#1A1F3C] flex items-center gap-2">
+            <CalendarCheck className="h-5 w-5 text-[#FF6B35]" />
+            Quick Access
+          </h2>
+          <Card className="border-none shadow-sm rounded-2xl overflow-hidden bg-[#1A1F3C] text-white">
+            <CardHeader>
+              <CardTitle className="text-lg">Pro Planning Tip</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <p className="text-sm text-white/70 leading-relaxed">
+                Organize your stops chronologically to automatically generate an optimized packing list!
+              </p>
+              <Button variant="outline" className="w-full border-white/20 hover:bg-white/10 text-white rounded-xl">
+                Read Guide
+              </Button>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-none shadow-sm rounded-2xl overflow-hidden bg-[#FF6B35]/10 border border-[#FF6B35]/20">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="bg-[#FF6B35] p-2 rounded-lg text-white">
+                  <PlusCircle size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-[#1A1F3C]">Community Challenge</h4>
+                  <p className="text-xs text-muted-foreground mt-1">Share your Bali itinerary to earn the "Island Hopper" badge!</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
-    }>
-      <DashboardContent />
-    </Suspense>
+    </div>
   );
 }

@@ -1,23 +1,36 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
+import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  return await updateSession(request)
-}
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+  const role = req.auth?.user?.role;
 
-export async function proxy(request: NextRequest) {
-  return await updateSession(request)
-}
+  const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
+  const isPublicRoute = nextUrl.pathname.startsWith("/shared");
+  const isAuthRoute = ["/login", "/register"].includes(nextUrl.pathname);
+  const isAdminRoute = nextUrl.pathname.startsWith("/admin");
+
+  if (isApiAuthRoute) return NextResponse.next();
+
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return NextResponse.redirect(new URL("/dashboard", nextUrl));
+    }
+    return NextResponse.next();
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    return NextResponse.redirect(new URL("/login", nextUrl));
+  }
+
+  if (isAdminRoute && role !== "ADMIN") {
+    return NextResponse.redirect(new URL("/dashboard", nextUrl));
+  }
+
+  return NextResponse.next();
+});
 
 export const config = {
-  matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
-     */
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
-  ],
-}
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};

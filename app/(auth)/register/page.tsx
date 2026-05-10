@@ -1,27 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { registerSchema, RegisterInput } from "@/lib/schemas/auth";
-import { createClient } from "@/lib/supabase/client";
-import { uploadAvatar, getPublicUrl } from "@/lib/supabase/storage";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Upload } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Loader2, PlaneTakeoff, Globe, Phone, MapPin } from "lucide-react";
 
 export default function RegisterPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   const {
     register,
@@ -29,163 +25,176 @@ export default function RegisterPage() {
     formState: { errors },
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      phone: "",
+      city: "",
+      country: "",
+    },
   });
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setAvatarFile(file);
-      setAvatarPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const onSubmit = async (data: RegisterInput) => {
+  const onSubmit = async (values: RegisterInput) => {
     setLoading(true);
     setError(null);
 
-    // 1. Auth Signup
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-    });
+    try {
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-    if (authError) {
-      setError(authError.message);
-      setLoading(false);
-      return;
-    }
+      const data = await response.json();
 
-    const userId = authData.user?.id;
-    if (!userId) return;
-
-    let photoUrl = null;
-
-    // 2. Upload Avatar if exists
-    if (avatarFile) {
-      try {
-        const path = await uploadAvatar(avatarFile, userId);
-        photoUrl = getPublicUrl("avatars", path);
-      } catch (uploadError: any) {
-        console.error("Avatar upload failed", uploadError);
+      if (!response.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+        setLoading(false);
+        return;
       }
-    }
 
-    // 3. Insert into profiles table
-    const { error: profileError } = await supabase.from("profiles").insert({
-      id: userId,
-      first_name: data.firstName,
-      last_name: data.lastName,
-      email: data.email,
-      phone: data.phone,
-      city: data.city,
-      country: data.country,
-      photo_url: photoUrl,
-    });
+      // Auto login after registration
+      await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+        callbackUrl: "/dashboard",
+      });
 
-    if (profileError) {
-      setError(profileError.message);
+    } catch (err) {
+      setError("Failed to register. Please check your connection.");
       setLoading(false);
-      return;
     }
-
-    router.push("/dashboard");
-    router.refresh();
   };
 
   return (
-    <div className="w-full space-y-6">
-      <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-[#1A1F3C]">Create an account</h1>
-        <p className="text-sm text-muted-foreground">
-          Join Traveloop to start planning your adventures
-        </p>
-      </div>
-
-      {error && (
-        <Alert variant="destructive">
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex flex-col items-center gap-4 mb-6">
-          <Avatar className="h-20 w-20 border-2 border-primary/10">
-            <AvatarImage src={avatarPreview || ""} />
-            <AvatarFallback className="bg-muted text-muted-foreground">
-              <Upload className="h-8 w-8" />
-            </AvatarFallback>
-          </Avatar>
-          <Label htmlFor="avatar-upload" className="cursor-pointer text-sm font-semibold text-primary hover:underline">
-            Upload Profile Photo
-            <Input id="avatar-upload" type="file" accept="image/*" className="hidden" onChange={handleAvatarChange} />
-          </Label>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
-            <Input id="firstName" {...register("firstName")} className={errors.firstName ? "border-destructive" : ""} />
-            {errors.firstName && <p className="text-xs text-destructive">{errors.firstName.message}</p>}
+    <div className="w-full max-w-2xl px-4 py-12">
+      <Card className="border-none shadow-2xl rounded-2xl overflow-hidden bg-white">
+        <CardHeader className="space-y-2 text-center pt-10 pb-6 border-b border-muted/50">
+          <div className="flex justify-center mb-2 text-[#FF6B35]">
+            <PlaneTakeoff size={48} strokeWidth={2.5} />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
-            <Input id="lastName" {...register("lastName")} className={errors.lastName ? "border-destructive" : ""} />
-            {errors.lastName && <p className="text-xs text-destructive">{errors.lastName.message}</p>}
-          </div>
-        </div>
+          <CardTitle className="text-4xl font-black text-[#1A1F3C]">Start Journey</CardTitle>
+          <CardDescription className="text-lg font-medium text-muted-foreground">
+            Create your Traveloop account and start planning.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="pt-8">
+          {error && (
+            <Alert variant="destructive" className="mb-8 rounded-xl bg-destructive/10 text-destructive border-none">
+              <AlertDescription className="font-bold text-center py-1">{error}</AlertDescription>
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="firstName" className="font-bold text-[#1A1F3C]">First Name</Label>
+                <Input
+                  id="firstName"
+                  {...register("firstName")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.firstName && <p className="text-xs font-bold text-destructive">{errors.firstName.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="lastName" className="font-bold text-[#1A1F3C]">Last Name</Label>
+                <Input
+                  id="lastName"
+                  {...register("lastName")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.lastName && <p className="text-xs font-bold text-destructive">{errors.lastName.message}</p>}
+              </div>
+            </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" {...register("email")} className={errors.email ? "border-destructive" : ""} />
-          {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
-        </div>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="font-bold text-[#1A1F3C]">Email Address</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="explorer@example.com"
+                {...register("email")}
+                className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+              />
+              {errors.email && <p className="text-xs font-bold text-destructive">{errors.email.message}</p>}
+            </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="phone">Phone (Optional)</Label>
-          <Input id="phone" {...register("phone")} />
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <Label htmlFor="phone" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                  <Phone size={14} className="text-[#FF6B35]" /> Phone
+                </Label>
+                <Input
+                  id="phone"
+                  {...register("phone")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="city" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                  <MapPin size={14} className="text-[#FF6B35]" /> City
+                </Label>
+                <Input
+                  id="city"
+                  {...register("city")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="country" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                  <Globe size={14} className="text-[#FF6B35]" /> Country
+                </Label>
+                <Input
+                  id="country"
+                  {...register("country")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+              </div>
+            </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="city">City</Label>
-            <Input id="city" {...register("city")} className={errors.city ? "border-destructive" : ""} />
-            {errors.city && <p className="text-xs text-destructive">{errors.city.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="country">Country</Label>
-            <Input id="country" {...register("country")} className={errors.country ? "border-destructive" : ""} />
-            {errors.country && <p className="text-xs text-destructive">{errors.country.message}</p>}
-          </div>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+              <div className="space-y-2">
+                <Label htmlFor="password" className="font-bold text-[#1A1F3C]">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  {...register("password")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.password && <p className="text-xs font-bold text-destructive">{errors.password.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword" className="font-bold text-[#1A1F3C]">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  {...register("confirmPassword")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.confirmPassword && <p className="text-xs font-bold text-destructive">{errors.confirmPassword.message}</p>}
+              </div>
+            </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" {...register("password")} className={errors.password ? "border-destructive" : ""} />
-            {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input id="confirmPassword" type="password" {...register("confirmPassword")} className={errors.confirmPassword ? "border-destructive" : ""} />
-            {errors.confirmPassword && <p className="text-xs text-destructive">{errors.confirmPassword.message}</p>}
-          </div>
-        </div>
-
-        <Button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-[12px] h-11 mt-4"
-        >
-          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Register"}
-        </Button>
-      </form>
-
-      <div className="text-center text-sm">
-        Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-primary hover:underline">
-          Login
-        </Link>
-      </div>
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-14 bg-[#FF6B35] hover:bg-[#E85A24] text-white font-black text-lg rounded-xl transition-all shadow-xl shadow-[#FF6B35]/25 mt-4"
+            >
+              {loading ? <Loader2 className="animate-spin" /> : "Create My Account"}
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="pb-10 justify-center border-t border-muted/50 pt-8 mt-4 bg-muted/5">
+          <p className="font-medium text-muted-foreground italic">
+            Already have an account?{" "}
+            <Link href="/login" className="text-[#FF6B35] font-black hover:underline not-italic ml-1">
+              Log in here
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

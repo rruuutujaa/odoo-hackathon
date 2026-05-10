@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search as SearchIcon, Filter, MapPin, Star, ArrowRight, Loader2 } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { Search as SearchIcon, Filter, MapPin, Star, ArrowRight, Loader2, Plane } from "lucide-react";
+import { searchActivities } from "@/lib/actions/activities";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -15,7 +15,6 @@ export default function SearchPage() {
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const supabase = createClient();
 
   const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -24,12 +23,7 @@ export default function SearchPage() {
     setLoading(true);
     setSearched(true);
     try {
-      const { data, error } = await supabase
-        .from("activities")
-        .select("*")
-        .ilike("name", `%${query}%`);
-      
-      if (error) throw error;
+      const data = await searchActivities(query);
       setResults(data || []);
     } catch (error) {
       console.error(error);
@@ -50,7 +44,7 @@ export default function SearchPage() {
             placeholder="Search activities, landmarks, cities..." 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-12 h-14 bg-card shadow-lg border-none rounded-[16px] text-lg focus-visible:ring-1 pr-32"
+            className="pl-12 h-14 bg-white shadow-lg border-none rounded-[16px] text-lg focus-visible:ring-1 pr-32"
           />
           <Button 
             type="submit" 
@@ -60,14 +54,6 @@ export default function SearchPage() {
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Search"}
           </Button>
         </form>
-
-        <div className="flex items-center justify-center gap-2 pt-2">
-          <Button variant="outline" size="sm" className="rounded-full border-muted-foreground/20 text-xs">
-            <Filter className="mr-1 h-3 w-3" /> Filters
-          </Button>
-          <Button variant="outline" size="sm" className="rounded-full border-muted-foreground/20 text-xs">Sort By</Button>
-          <Button variant="outline" size="sm" className="rounded-full border-muted-foreground/20 text-xs">Group By</Button>
-        </div>
       </div>
 
       <div className="max-w-5xl mx-auto">
@@ -98,13 +84,9 @@ export default function SearchPage() {
               <Card key={activity.id} className="group rounded-[16px] overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-0">
                   <div className="flex flex-col md:flex-row">
-                    <div className="w-full md:w-48 h-48 md:h-auto relative">
-                      <img 
-                        src={`https://images.unsplash.com/photo-1500000000000?q=80&w=400&h=400&fit=crop&sig=${activity.id}`} 
-                        alt={activity.name}
-                        className="h-full w-full object-cover"
-                      />
-                      <Badge className="absolute top-2 left-2 bg-white/90 text-primary hover:bg-white">
+                    <div className="w-full md:w-48 h-48 md:h-auto relative bg-muted flex items-center justify-center">
+                      <Plane className="text-muted-foreground/20" size={48} />
+                      <Badge className="absolute top-2 left-2 bg-white/90 text-primary hover:bg-white border-none">
                         {activity.category}
                       </Badge>
                     </div>
@@ -124,7 +106,7 @@ export default function SearchPage() {
                           <span className="flex items-center gap-1">
                             <MapPin className="h-3 w-3" /> {activity.location}
                           </span>
-                          <span>Duration: {activity.duration_hours}h</span>
+                          <span>Duration: {activity.duration}h</span>
                         </div>
                       </div>
                       <div className="mt-6 flex items-center justify-between">

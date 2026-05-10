@@ -1,0 +1,23 @@
+name: Production Deployment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Example for Docker/Self-hosted or Cloud provider
+      - name: Build & Push Docker Image
+        run: |
+          # docker build -t traveloop-prod .
+          # docker push ...
+          echo "Building image for production..."
+
+      - name: Run Prisma Migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npx prisma migrate deploy

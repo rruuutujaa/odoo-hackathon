@@ -1,177 +1,147 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { createClient } from "@/lib/supabase/client";
-import { uploadTripCover, getPublicUrl } from "@/lib/supabase/storage";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { createTripSchema, CreateTripInput } from "@/lib/schemas/trips";
+import { createTrip } from "@/lib/actions/trips";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, Upload, X } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, PlaneTakeoff, Calendar, Wallet } from "lucide-react";
+import { useSession } from "next-auth/react";
 
-const tripSchema = z.object({
-  title: z.string().min(2, "Trip title is required"),
-  destination: z.string().min(2, "Main destination is required"),
-  startDate: z.string().min(1, "Start date is required"),
-  endDate: z.string().min(1, "End date is required"),
-  description: z.string().optional(),
-}).refine((data) => new Date(data.startDate) <= new Date(data.endDate), {
-  message: "End date cannot be before start date",
-  path: ["endDate"],
-});
-
-type TripInput = z.infer<typeof tripSchema>;
+export const dynamic = "force-dynamic";
 
 export default function NewTripPage() {
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [coverFile, setCoverFile] = useState<File | null>(null);
-  const [coverPreview, setCoverPreview] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
+  const { data: session } = useSession();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TripInput>({
-    resolver: zodResolver(tripSchema),
+  } = useForm<any>({
+    resolver: zodResolver(createTripSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      totalBudget: 0,
+      status: "UPCOMING",
+    },
   });
 
-  const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      setCoverFile(file);
-      setCoverPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const onSubmit = async (data: TripInput) => {
+  const onSubmit = async (values: CreateTripInput) => {
+    if (!session?.user?.id) return;
     setLoading(true);
+    setError(null);
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    // 1. Create Trip (initial)
-    const { data: trip, error: tripError } = await supabase
-      .from("trips")
-      .insert({
-        user_id: user.id,
-        title: data.title,
-        description: data.description,
-        start_date: data.startDate,
-        end_date: data.endDate,
-        status: 'upcoming',
-      })
-      .select()
-      .single();
-
-    if (tripError) {
-      console.error(tripError);
+    try {
+      const trip = await createTrip(values, session.user.id);
+      router.push(`/trips/${trip.id}/build`);
+    } catch (err: any) {
+      setError(err.message || "Failed to create trip. Please try again.");
       setLoading(false);
-      return;
     }
-
-    let coverUrl = null;
-
-    // 2. Upload Cover if exists
-    if (coverFile) {
-      try {
-        const path = await uploadTripCover(coverFile, trip.id);
-        coverUrl = getPublicUrl("trip-covers", path);
-        
-        // Update trip with cover url
-        await supabase
-          .from("trips")
-          .update({ cover_image: coverUrl })
-          .eq("id", trip.id);
-      } catch (uploadError) {
-        console.error("Cover upload failed", uploadError);
-      }
-    }
-
-    router.push(`/trips/${trip.id}/build`);
-    router.refresh();
   };
 
   return (
     <div className="max-w-3xl mx-auto py-8">
-      <Card className="border-none shadow-lg rounded-[20px]">
-        <CardHeader>
-          <CardTitle className="text-2xl text-[#1A1F3C]">Create New Trip</CardTitle>
-          <CardDescription>Fill in the details to start your adventure</CardDescription>
+      <Card className="border-none shadow-2xl rounded-2xl overflow-hidden bg-white">
+        <CardHeader className="space-y-2 text-center pt-10 pb-6 border-b border-muted/50">
+          <div className="flex justify-center mb-2 text-[#FF6B35]">
+            <PlaneTakeoff size={48} strokeWidth={2.5} />
+          </div>
+          <CardTitle className="text-4xl font-black text-[#1A1F3C]">New Adventure</CardTitle>
+          <CardDescription className="text-lg font-medium text-muted-foreground">
+            Where are you heading next? Let's start the planning.
+          </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            {/* Cover Upload */}
+        <CardContent className="pt-8">
+          {error && (
+            <Alert variant="destructive" className="mb-8 rounded-xl bg-destructive/10 text-destructive border-none">
+              <AlertDescription className="font-bold text-center py-1">{error}</AlertDescription>
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-2">
-              <Label>Trip Cover Image</Label>
-              <div 
-                className={`relative aspect-[21/9] w-full border-2 border-dashed rounded-[16px] flex flex-col items-center justify-center overflow-hidden transition-colors ${coverPreview ? 'border-transparent' : 'hover:bg-muted/50'}`}
-              >
-                {coverPreview ? (
-                  <>
-                    <img src={coverPreview} alt="Preview" className="h-full w-full object-cover" />
-                    <button 
-                      type="button"
-                      onClick={() => { setCoverFile(null); setCoverPreview(null); }}
-                      className="absolute top-2 right-2 bg-black/50 p-1 rounded-full text-white hover:bg-black/70"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </>
-                ) : (
-                  <label className="flex flex-col items-center cursor-pointer p-8 w-full h-full">
-                    <Upload className="h-10 w-10 text-muted-foreground mb-2" />
-                    <span className="text-sm font-medium">Click to upload cover photo</span>
-                    <span className="text-xs text-muted-foreground">PNG, JPG up to 10MB</span>
-                    <input type="file" className="hidden" accept="image/*" onChange={handleCoverChange} />
-                  </label>
-                )}
-              </div>
+              <Label htmlFor="title" className="font-bold text-[#1A1F3C]">Trip Name</Label>
+              <Input
+                id="title"
+                placeholder="e.g. European Summer 2026"
+                {...register("title")}
+                className="h-14 rounded-xl bg-muted/20 border-none text-lg font-bold focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+              />
+              {errors.title && <p className="text-xs font-bold text-destructive px-1">{errors.title.message as string}</p>}
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="title">Trip Name</Label>
-              <Input id="title" placeholder="e.g. European Summer 2026" {...register("title")} className={errors.title ? "border-destructive" : ""} />
-              {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="destination">Main Destination</Label>
-              <Input id="destination" placeholder="e.g. Paris, France" {...register("destination")} className={errors.destination ? "border-destructive" : ""} />
-              {errors.destination && <p className="text-xs text-destructive">{errors.destination.message}</p>}
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label htmlFor="startDate">Start Date</Label>
-                <Input id="startDate" type="date" {...register("startDate")} className={errors.startDate ? "border-destructive" : ""} />
-                {errors.startDate && <p className="text-xs text-destructive">{errors.startDate.message}</p>}
+                <Label htmlFor="startDate" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                  <Calendar size={14} className="text-[#FF6B35]" /> Start Date
+                </Label>
+                <Input
+                  id="startDate"
+                  type="date"
+                  {...register("startDate")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.startDate && <p className="text-xs font-bold text-destructive">{errors.startDate.message as string}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="endDate">End Date</Label>
-                <Input id="endDate" type="date" {...register("endDate")} className={errors.endDate ? "border-destructive" : ""} />
-                {errors.endDate && <p className="text-xs text-destructive">{errors.endDate.message}</p>}
+                <Label htmlFor="endDate" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                  <Calendar size={14} className="text-[#FF6B35]" /> End Date
+                </Label>
+                <Input
+                  id="endDate"
+                  type="date"
+                  {...register("endDate")}
+                  className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+                />
+                {errors.endDate && <p className="text-xs font-bold text-destructive">{errors.endDate.message as string}</p>}
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description (Optional)</Label>
-              <Textarea id="description" placeholder="What are your goals for this trip?" {...register("description")} rows={4} />
+              <Label htmlFor="totalBudget" className="font-bold flex items-center gap-1.5 text-[#1A1F3C]">
+                <Wallet size={14} className="text-[#FF6B35]" /> Total Budget ($)
+              </Label>
+              <Input
+                id="totalBudget"
+                type="number"
+                {...register("totalBudget")}
+                className="h-12 rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+              />
+              {errors.totalBudget && <p className="text-xs font-bold text-destructive">{errors.totalBudget.message as string}</p>}
             </div>
 
-            <div className="flex items-center justify-end gap-3 pt-4">
-              <Button asChild variant="ghost" className="rounded-[12px] px-6">
+            <div className="space-y-2">
+              <Label htmlFor="description" className="font-bold text-[#1A1F3C]">Description (Optional)</Label>
+              <Textarea
+                id="description"
+                placeholder="What's the vibe of this trip?"
+                {...register("description")}
+                className="min-h-[120px] rounded-xl bg-muted/20 border-none focus-visible:ring-2 focus-visible:ring-[#FF6B35]"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-4 pt-4">
+              <Button asChild variant="ghost" className="rounded-xl px-8 font-bold">
                 <Link href="/trips">Cancel</Link>
               </Button>
-              <Button type="submit" disabled={loading} className="bg-[#FF6B35] hover:bg-[#E85A24] text-white rounded-[12px] px-8 h-11">
-                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Create Trip"}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="h-14 bg-[#FF6B35] hover:bg-[#E85A24] text-white font-black text-lg rounded-xl transition-all shadow-xl shadow-[#FF6B35]/25 px-10"
+              >
+                {loading ? <Loader2 className="animate-spin mr-2" /> : "Plan Itinerary"}
               </Button>
             </div>
           </form>

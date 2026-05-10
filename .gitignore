@@ -68,3 +68,4 @@ lerna-debug.log*
 
 supabase/migrations
 supabase/seed.sql
+/lib/generated/prisma
