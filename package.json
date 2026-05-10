@@ -1,0 +1,49 @@
+{
+  "name": "odoo-hackathon",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000O\u0000d\u0000o\u0000o\u0000 \u0000H\u0000a\u0000c\u0000k\u0000a\u0000t\u0000h\u0000o\u0000n\u0000\r\u0000 \u0000",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rruuutujaa/odoo-hackathon.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rruuutujaa/odoo-hackathon/issues"
+  },
+  "homepage": "https://github.com/rruuutujaa/odoo-hackathon#readme",
+  "dependencies": {
+    "@supabase/ssr": "^0.10.3",
+    "@supabase/supabase-js": "^2.105.4",
+    "@types/node": "^25.6.2",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.14.0",
+    "next": "^16.2.6",
+    "next-themes": "^0.4.6",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-hook-form": "^7.75.0",
+    "tailwind-merge": "^3.5.0",
+    "typescript": "^6.0.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^4.3.0"
+  }
+}
