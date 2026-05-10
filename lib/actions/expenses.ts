@@ -73,3 +73,10 @@ export async function getExpenseSummary(tripId: string) {
     byCategory
   };
 }
+
+export async function updateInvoiceStatus(id: string, status: "PENDING" | "PAID") {
+  return await prisma.invoice.update({
+    where: { id },
+    data: { paymentStatus: status }
+  });
+}

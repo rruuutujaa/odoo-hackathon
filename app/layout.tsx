@@ -3,6 +3,8 @@ import { Calistoga, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import LuxuryCursor from "@/components/ui/LuxuryCursor";
+import { Toaster } from "@/components/ui/toaster";
 
 const displayFont = Calistoga({
   weight: "400",
@@ -35,6 +37,8 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
+            <LuxuryCursor />
+            <Toaster />
             <div className="relative min-h-screen">
               {children}
             </div>
